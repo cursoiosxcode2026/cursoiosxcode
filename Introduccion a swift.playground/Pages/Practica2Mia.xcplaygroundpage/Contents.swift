@@ -1,7 +1,3 @@
-//: [Previous](@previous)
-
 import Foundation
+print ("probando GIT")
 
-var greeting = "Hello, playground"
-
-//: [Next](@next)

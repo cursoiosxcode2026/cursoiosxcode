@@ -160,4 +160,5 @@ tienda.agregarProducto(producto: producto1)
 tienda.agregarProducto(producto: producto2)
 tienda.mostrarInventario()
 print("El valor del inventario de la tienda es de \(tienda.valorTotalInventario()) euros.")
-
+tienda.agregarExistencias(nombreProducto: "Cafe", existencias: 20)
+tienda.mostrarInventario()
