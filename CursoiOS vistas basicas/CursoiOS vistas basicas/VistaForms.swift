@@ -37,7 +37,8 @@ struct VistaForms: View {
                             DatePicker(
                             "Hora de llegada",
                             selection: $horaLlegada,
-                            displayedComponents: .hourAndMinute)
+                            displayedComponents: .hourAndMinute
+                            )
                         
                         Toggle("¿Tienes alergias?",isOn: $alergias)
                         }
@@ -50,7 +51,8 @@ struct VistaForms: View {
                     TextField(
                         "Describe tus alergias",
                         text: $textoAlergias,
-                        axis: .vertical)
+                        axis: .vertical
+                    )
                     .lineLimit(5)
                 }
             }
