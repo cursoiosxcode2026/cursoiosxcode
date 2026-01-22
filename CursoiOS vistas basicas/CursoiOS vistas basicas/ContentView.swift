@@ -40,6 +40,20 @@ struct ContentView: View {
                   NavigationLink(destination: VistaForms()) {
                       Text("Ir a vista de formlularios")
                   }
+                  
+                  NavigationLink(destination:VistaAlertasMenus()){
+                      Text("Ir a vista de Alertas y Menús")
+                  }
+                  NavigationLink(destination: VistaTouchGestures()) {
+                      Text("Ir a vista de toques")
+                  }
+                  
+                  NavigationLink(destination: VistaTarjetaPerfil()) {
+                      Text("Ir a vista de tarjeta de perfil")
+                  }
+                  NavigationLink(destination: VistaTarjetaFavoritos()) {
+                      Text("Ir a vista de tarjeta de favoritos")
+                  }
                 }
             }
         }
