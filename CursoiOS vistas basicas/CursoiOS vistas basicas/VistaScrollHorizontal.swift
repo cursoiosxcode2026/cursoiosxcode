@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct VistaScrollaHorizontal: View {
+struct VistaScrollHorizontal: View {
     //VistaTarjeta(numero: 0)
     var body: some View {
         VStack (alignment: .leading) {
@@ -55,5 +55,5 @@ struct VistaTarjeta: View {
     
 
 #Preview {
-    VistaScrollaHorizontal()
+    VistaScrollHorizontal()
 }

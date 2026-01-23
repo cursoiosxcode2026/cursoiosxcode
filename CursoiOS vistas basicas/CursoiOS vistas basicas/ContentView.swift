@@ -54,6 +54,20 @@ struct ContentView: View {
                   NavigationLink(destination: VistaTarjetaFavoritos()) {
                       Text("Ir a vista de tarjeta de favoritos")
                   }
+                  
+                  NavigationLink(destination: VistaPruebas2()){
+                      Text("Ir a vista de pruebas2")
+                  }
+                  NavigationLink(destination: VistaScrollHorizontal()){
+                      Text("Ir a vista de scroll horizontal ")
+                  }
+                  
+                  NavigationLink(destination: VistaListas()){
+                      Text("Ir a vista de listas ")
+                  }
+                  NavigationLink(destination: VistaListas2()){
+                      Text("Ir a vista de listas2 ")
+                  }
                 }
             }
         }
