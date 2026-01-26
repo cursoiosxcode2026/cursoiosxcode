@@ -10,6 +10,8 @@ import SwiftUI
 struct VistaPruebas2: View {
     //  var numeros = ""
     // var textos = ""
+    @State private var siguiendo = false
+    @State private var enviarMensaje = false
     
     var body: some View {
         
@@ -53,31 +55,55 @@ struct VistaPruebas2: View {
             
             HStack (spacing: 15){
                 Button {
-                    print("Siguiendo...")
+                    siguiendo.toggle()
                 } label: {
-                    Text("Seguir")
+                    Text(siguiendo ? "Siguiendo" : "Seguir")
                         .font(.headline)
                         .foregroundStyle(.white)
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(Color.blue)
+                        .background(siguiendo ? Color.gray : Color.blue)
                         .clipShape(Capsule())
                 }
                 Button {
-                    print("Enviando mensaje...")
+                    enviarMensaje.toggle()
                 } label: {
                     Image(systemName: "envelope.fill")
                         .font(.title2)
-                        .foregroundStyle(.red)
+                        .foregroundStyle(enviarMensaje ? Color.green : Color.red)
                         .padding()
                         .background(
-                            Capsule() //Con stroke se hace hueca
-                                .stroke(.red,lineWidth: 2)
+                           // enviarMensaje ? Color.green : Color.red
+                           Capsule() //Con stroke se hace hueca
+                              .stroke(enviarMensaje ? Color.green : Color.red,lineWidth: 2)
                         )
                 }
             }
             .padding(.horizontal)
             .padding(.bottom,20)
+            
+            VStack {
+                
+                HStack {
+                    subirContenido(imagen: "pajarito")
+                    subirContenido(imagen: "paris")
+                    subirContenido(imagen: "gatito")
+                }
+                
+                HStack {
+                    subirContenido(imagen: "gatito")
+                    subirContenido(imagen: "pajarito")
+                    subirContenido(imagen: "paris")
+                    
+                }
+                HStack {
+                    subirContenido(imagen: "paris")
+                    subirContenido(imagen: "gatito")
+                    subirContenido(imagen: "pajarito")
+                    
+                    
+                }
+            }
         }
         Spacer()
     }
@@ -110,15 +136,16 @@ struct VistaPruebas2: View {
             .padding(.horizontal)
     }
     
-    func infoNumeros (numero: String, texto: String) -> some View{
-        
-        VStack() {
-            Text(numero)
-                .font(.title2)
-                .bold()
-            Text(texto)
-                .font(.caption)
-        }
+  
+      func infoNumeros(numero: String, texto: String) -> some View {
+          VStack {
+              Text (numero)
+                  .font(.title2)
+                  .bold()
+              Text(texto)
+                  .font(.caption)
+              
+          }
         
     }
     
@@ -130,6 +157,7 @@ struct VistaPruebas2: View {
             .clipShape(Rectangle())
         
     }
+    
 }
 
 
