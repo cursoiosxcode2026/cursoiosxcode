@@ -37,9 +37,9 @@ struct VistaSeguidores: View {
             
             //Seccion de informacion
             VStack(spacing: 8) {
-              nombreUsuario(nombre: "Paloma Vaquero Tirado")
-              tituloUsuario(titulo: "UGC Spain", imagen: "video.bubble")
-              descripcionUsuario(descripcion: "Creadora de contenido, ideas y momentos del día a día.")
+                nombreUsuario(nombre: seguidor.nombre)
+                tituloUsuario(titulo: seguidor.titulo, imagen: "video.bubble")
+                descripcionUsuario(descripcion: seguidor.descripcion)
                 
             }
             
@@ -48,11 +48,11 @@ struct VistaSeguidores: View {
             
             //Seccion numeros
             HStack {
-                infoNumeros(numero: "25", texto: "Reels")
+                infoNumeros(numero: seguidor.reels, texto: "Reels")
                 Spacer()
-                infoNumeros(numero: "15k", texto: "Seguidores")
+                infoNumeros(numero: seguidor.seguidores, texto: "Seguidores")
                 Spacer()
-                infoNumeros(numero: "4k", texto: "Seguidos")
+                infoNumeros(numero: seguidor.seguidos, texto: "Seguidos")
             }
             .padding(.horizontal, 40)
             

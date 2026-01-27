@@ -12,6 +12,8 @@ struct VistaTabs: View {
     
     var body: some View {
         
+       let _ = print(vistaSeleccionada)
+        
         TabView(selection: $vistaSeleccionada) {
                 VistaFavoritos(vistaSeleccionada: $vistaSeleccionada)
                 .tabItem {
