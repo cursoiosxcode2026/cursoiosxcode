@@ -10,6 +10,8 @@ import SwiftUI
 struct VistaSeguidores: View {
     @State private var siguiendo = false
     @State private var enviarMensaje = false
+    @State private var imagenActiva: Int? = nil
+    
     let seguidor : Seguidores
     
     init(seguidor: Seguidores) {
@@ -90,27 +92,29 @@ struct VistaSeguidores: View {
             VStack {
                 
                 HStack {
-                    subirContenido(imagen: "pajarito")
-                    subirContenido(imagen: "paris")
-                    subirContenido(imagen: "gatito")
+                    subirContenido(imagen: "pajarito", index: 0)
+                    subirContenido(imagen: "paris", index: 1)
+                    subirContenido(imagen: "gatito",index: 2 )
                 }
                 
                 HStack {
-                    subirContenido(imagen: "gatito")
-                    subirContenido(imagen: "pajarito")
-                    subirContenido(imagen: "paris")
+        
+                    subirContenido(imagen: "paris", index: 3)
+                    subirContenido(imagen: "gatito",index: 4 )
+                    subirContenido(imagen: "pajarito", index: 5)
                     
                 }
                 HStack {
-                    subirContenido(imagen: "paris")
-                    subirContenido(imagen: "gatito")
-                    subirContenido(imagen: "pajarito")
+                    subirContenido(imagen: "gatito",index: 6)
+                    subirContenido(imagen: "pajarito", index: 7)
+                    subirContenido(imagen: "paris", index: 8)
                     
                     
                 }
             }
+            Spacer()
         }
-        Spacer()
+        
     }
     
     func editarImagenUsuario (imagen: String) -> some View {
@@ -154,19 +158,37 @@ struct VistaSeguidores: View {
         
     }
     
-    func subirContenido (imagen : String) -> some View {
+    func subirContenido (imagen : String, index : Int) -> some View {
+        
         Image(imagen)
             .resizable()
             .foregroundStyle(.gray.opacity(0.3))
             .frame(width: 120,height: 120)
             .clipShape(Rectangle())
+            .scaleEffect(imagenActiva == index ? 1.75 : 1)
+            .animation(.default, value: imagenActiva)
+            .onTapGesture {
+                imagenActiva = (imagenActiva == index) ? nil : index
+            }
         
     }
+    
+   /* func ampliarPortada(imagen:String) -> some View {
+        
+        Image(systemName: imagen)
+            .font(.system(size: 60))
+            .foregroundStyle(.green)
+            .scaleEffect(ampliame ? 1.75 : 1)
+            .animation(.default, value: ampliame)
+            .onTapGesture {
+                ampliame.toggle()
+            }
+    }*/
         
         
         
     }
 
 #Preview {
-    VistaSeguidores(seguidor: Seguidores(nombre:"Paloma",seguidores:"15k"))
+    VistaSeguidores(seguidor: Seguidores(nombre: "Paloma", titulo: "UGC Spain", descripcion: "Creadora de contenido, ideas y momentos del día a día.", reels: "25", seguidores: "15k",seguidos: "4k"))
 }

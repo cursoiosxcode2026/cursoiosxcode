@@ -72,7 +72,21 @@ struct ContentView: View {
                   NavigationLink(destination: VistaExtensionesVistas()){
                       Text("Ir a vista extensiones vistas ")
                   }
+                  
+                  
+                  NavigationLink(destination: VistaAnimaciones()){
+                      Text("Ir a vista animaciones ")
+                  }
+                  
+                  NavigationLink(destination: VistaGeometryReader()){
+                      Text("Ir a vista geometry reader ")
+                  }
+                  
+                  NavigationLink(destination: VistaDebugging()){
+                      Text("Ir a vista debugging ")
+                  }
                 }
+
             }
         }
     }
