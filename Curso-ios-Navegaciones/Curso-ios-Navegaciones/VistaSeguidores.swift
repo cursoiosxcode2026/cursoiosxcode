@@ -11,6 +11,7 @@ struct VistaSeguidores: View {
     @State private var siguiendo = false
     @State private var enviarMensaje = false
     @State private var imagenActiva: Int? = nil
+    @State private var ampliarPerfil = false
     
     let seguidor : Seguidores
     
@@ -123,6 +124,11 @@ struct VistaSeguidores: View {
             .foregroundStyle(.gray.opacity(0.3))
             .frame(width: 120,height: 120)
             .clipShape(Circle())
+            .scaleEffect(ampliarPerfil ? 1.5 : 1)
+            .animation(.default, value: ampliarPerfil)
+            .onTapGesture {
+                ampliarPerfil.toggle()
+            }
     }
     
     func nombreUsuario (nombre: String) -> some View{
