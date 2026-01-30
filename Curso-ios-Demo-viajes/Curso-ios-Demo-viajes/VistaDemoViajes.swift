@@ -10,23 +10,24 @@ import SwiftUI
 struct VistaDemoViajes: View {
     
     @State private var nombreUsuario : String = ""
+    @State private var tabSeleccionado = 0
     
     @State private var destinos: [Destino] = [Destino(nombre: "Paris",icono: "building.columns.fill", descripcion: "Amor y luz.",color: .blue),Destino(nombre: "Roma",icono: "globe.europe.africa.fill", descripcion: "Historia y tradicion.",color: .orange), Destino(nombre: "Tokio",icono: "tram.fill", descripcion: "Neones y ramen",color: .red, esFavorito: true, puntuacion: 3),
     ]
     var body: some View {
         
-        TabView {
-            VistaListaDestinos(destinos: $destinos,nombreUsuario: $nombreUsuario)
+        TabView  (selection: $tabSeleccionado){
+            VistaListaDestinos(destinos: $destinos, nombreUsuario: $nombreUsuario, tabSeleccionado: $tabSeleccionado)
                 .tabItem {
                     Label("Explorar",systemImage: "map")
-                }
+                }.tag(0)
             
             NavigationStack {
                 VistaPerfilUsuario(nombreUsuario: $nombreUsuario)
             }
             .tabItem {
                 Label("Mi perfil",systemImage: "person.circle")
-            }
+            }.tag(1)
         }
     
     }
@@ -35,6 +36,7 @@ struct VistaDemoViajes: View {
 struct VistaListaDestinos: View {
     @Binding var destinos: [Destino]
     @Binding var nombreUsuario: String
+    @Binding var tabSeleccionado: Int
     
     
     var body: some View {
@@ -43,25 +45,27 @@ struct VistaListaDestinos: View {
                 List {
                     //Encabezado
                     Section {
-                        NavigationLink(destination: VistaPerfilUsuario(nombreUsuario: $nombreUsuario)) {
-                            HStack {
-                                (Text("Hola, ")
-                                    .foregroundStyle(.gray)
-                                 +
-                                 
-                                 Text(nombreUsuario.isEmpty ? "Viajero/a" : nombreUsuario)
-                                    .foregroundStyle(.primary)
-                                    .bold()
-                                )
-                                .font(.title2)
-                                
-                                Spacer()
-                                
-                                Image(systemName: "pencil.circle.fill")
-                                    .foregroundStyle(.blue)
-                            }
-                            .padding(.vertical,5)
+                        Button {
+                            tabSeleccionado = 1
+                        }label: {
+                        HStack {
+                            (Text("Hola, ")
+                                .foregroundStyle(.gray)
+                             +
+                             
+                             Text(nombreUsuario.isEmpty ? "Viajero/a" : nombreUsuario)
+                                .foregroundStyle(.primary)
+                                .bold()
+                            )
+                            .font(.title2)
+                            
+                            Spacer()
+                            
+                            Image(systemName: "pencil.circle.fill")
+                                .foregroundStyle(.blue)
                         }
+                        .padding(.vertical,5)
+                    }
                         
                     }
                     .listRowBackground(Color.clear) //Quitamos el fondo de la celda

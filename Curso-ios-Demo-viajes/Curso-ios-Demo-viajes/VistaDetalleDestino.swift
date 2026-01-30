@@ -81,7 +81,20 @@ struct VistaPuntuacion: View {
                     
                     if puntuacion > 0 {
                         Button("Borrar") {
-                            puntuacion = 0
+                            //(en segundos)
+                            let esperaEntreEstrellas = 0.2
+                            let totalEstrellas = puntuacion
+                            
+                            for i in 0..<totalEstrellas{
+                                let retardo = Double(i) * esperaEntreEstrellas
+                                
+                                DispatchQueue.main.asyncAfter(deadline: .now() + retardo) {
+                                    withAnimation {
+                                        puntuacion -= 1
+                                    }
+                            }
+                           
+                            }
                         }
                         .font(.caption)
                         .foregroundStyle(.red)
