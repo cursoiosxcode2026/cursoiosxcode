@@ -27,11 +27,37 @@ class AppData {
     var cargando = false
     var usuario = PerfilUsuario()
     
+    var instanceId: ObjectIdentifier {
+        ObjectIdentifier(self)
+    }
+    
+    init() {
+        print("Se ha crado una instancia de AppData: \(instanceId)")
+    }
+    
+    deinit {
+        print("Se ha destruido una instancia de AppData: \(instanceId)")
+    }
+    
     func cargarDatos() async {
+        print("Cargando datos...")
         cargando = true
         
         //simulamos una espera para cargar los datos desde internet
-        try? await Task.sleep(nanoseconds: 1_000_000_000)
+        // Esto si tiene error cierra la app y ya
+        // try! await Task.sleep(nanoseconds: 2_000_000_000)
+       // es lo mismo que la opción de abajo
+      //  try? await Task.sleep(nanoseconds: 2_000_000_000)
+        
+    
+        
+        do {
+            try await Task.sleep(nanoseconds: 2_000_000_000)
+        } catch is CancellationError {
+            print("Se ha cancelado la carga de datos")
+        }catch {
+            print("Otro error: \(error.localizedDescription)")
+        }
         
         await MainActor.run {
             articulos = [
@@ -41,6 +67,7 @@ class AppData {
             ]
             cargando = false
         }
+        print("datos cargados")
         
     }
     
