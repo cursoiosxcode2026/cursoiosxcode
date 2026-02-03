@@ -1,0 +1,100 @@
+//
+//  Perfil.swift
+//  RedSocial
+//
+//  Created by Equipo 7 on 30/1/26.
+//
+
+import SwiftUI
+import Observation
+
+@Observable
+class Perfil {
+    let id = UUID()
+    let nombre: String
+    let titulo: String
+    let descripcion: String
+    let reels: String
+    let seguidores: String
+    let seguidos: String
+    
+    private var siguiendo = false
+    private var imagenActiva: Int? = nil
+    private var ampliarPerfil = false
+    
+    init() {
+        self.nombre = ""
+        self.titulo = ""
+        self.descripcion = ""
+        self.reels = ""
+        self.seguidores = ""
+        self.seguidos = ""
+
+    }
+    deinit {
+        print("Quitando la instancia de Perfil")
+    }
+    
+    func editarImagenUsuario (imagen: String) -> some View {
+        Image(imagen)
+            .resizable()
+            .foregroundStyle(.gray.opacity(0.3))
+            .frame(width: 120,height: 120)
+            .clipShape(Circle())
+            .scaleEffect(ampliarPerfil ? 1.5 : 1)
+            .animation(.default, value: ampliarPerfil)
+            .onTapGesture {
+                self.ampliarPerfil.toggle()
+            }
+    }
+    
+    func nombreUsuario (nombre: String) -> some View{
+        Text(nombre)
+            .font(.title)
+            .fontWeight(.bold)
+    }
+    
+    func tituloUsuario(titulo: String, imagen: String)-> some View{
+        Label (titulo, systemImage: imagen)
+            .font(.headline)
+            .foregroundStyle(.blue)
+    }
+    
+    func descripcionUsuario(descripcion: String) -> some View{
+        Text(descripcion)
+            .font(.body)
+            .multilineTextAlignment(.center)
+            .foregroundStyle(.secondary)
+            .padding(.horizontal)
+    }
+    
+  
+      func infoNumeros(numero: String, texto: String) -> some View {
+          VStack {
+              Text (numero)
+                  .font(.title2)
+                  .bold()
+              Text(texto)
+                  .font(.caption)
+              
+          }
+        
+    }
+    
+    func subirContenido (imagen : String, index : Int) -> some View {
+        
+        Image(imagen)
+            .resizable()
+            .foregroundStyle(.gray.opacity(0.3))
+            .frame(width: 120,height: 120)
+            .clipShape(Rectangle())
+            .scaleEffect(imagenActiva == index ? 1.75 : 1)
+            .animation(.default, value: imagenActiva)
+            .onTapGesture {
+                self.imagenActiva = (self.imagenActiva == index) ? nil : index
+            }
+    
+    }
+    
+    
+}
