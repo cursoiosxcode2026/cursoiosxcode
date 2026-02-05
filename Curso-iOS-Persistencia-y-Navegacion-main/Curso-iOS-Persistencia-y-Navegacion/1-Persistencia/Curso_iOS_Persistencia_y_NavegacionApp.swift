@@ -11,7 +11,7 @@ import SwiftUI
 struct Curso_iOS_Persistencia_y_NavegacionApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            PersistirJSON()
         }
     }
 }

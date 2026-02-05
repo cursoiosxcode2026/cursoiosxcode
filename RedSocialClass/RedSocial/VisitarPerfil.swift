@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct VisitarPerfil: View {
-    @Environment(Perfil.self) var perfil
+    @Environment(RedSocial.self) var redSocial
     @State private var siguiendo = false
     @State private var enviarMensaje = false
     @State private var imagenActiva: Int? = nil
@@ -26,16 +26,16 @@ struct VisitarPerfil: View {
                 
                 
                 //Imagen del Usuario
-                perfil.editarImagenUsuario(imagen: "paris")
+                redSocial.perfil.editarImagenUsuario(imagen: "paris")
     
             }
             .padding(.top,20)
             
             //Seccion de informacion
             VStack(spacing: 8) {
-                perfil.nombreUsuario(nombre: perfil.nombre)
-                perfil.tituloUsuario(titulo: perfil.titulo, imagen: "video.bubble")
-                perfil.descripcionUsuario(descripcion: perfil.descripcion)
+                redSocial.perfil.nombreUsuario(nombre: redSocial.perfil.nombre)
+                redSocial.perfil.tituloUsuario(titulo: redSocial.perfil.titulo, imagen: "video.bubble")
+                redSocial.perfil.descripcionUsuario(descripcion: redSocial.perfil.descripcion)
                 
             }
             
@@ -44,11 +44,11 @@ struct VisitarPerfil: View {
             
             //Seccion numeros
             HStack {
-                perfil.infoNumeros(numero: perfil.reels, texto: "Reels")
+                redSocial.perfil.infoNumeros(numero: redSocial.perfil.reels, texto: "Reels")
                 Spacer()
-                perfil.infoNumeros(numero: perfil.seguidores, texto: "Seguidores")
+                redSocial.perfil.infoNumeros(numero: redSocial.perfil.seguidores, texto: "Seguidores")
                 Spacer()
-                perfil.infoNumeros(numero: perfil.seguidos, texto: "Seguidos")
+                redSocial.perfil.infoNumeros(numero: redSocial.perfil.seguidos, texto: "Seguidos")
             }
             .padding(.horizontal, 40)
             
@@ -86,22 +86,22 @@ struct VisitarPerfil: View {
             VStack {
                 
                 HStack {
-                    perfil.subirContenido(imagen: "pajarito", index: 0)
-                    perfil.subirContenido(imagen: "paris", index: 1)
-                    perfil.subirContenido(imagen: "gatito",index: 2 )
+                    redSocial.perfil.subirContenido(imagen: "pajarito", index: 0)
+                    redSocial.perfil.subirContenido(imagen: "paris", index: 1)
+                    redSocial.perfil.subirContenido(imagen: "gatito",index: 2 )
                 }
                 
                 HStack {
         
-                    perfil.subirContenido(imagen: "paris", index: 3)
-                    perfil.subirContenido(imagen: "gatito",index: 4 )
-                    perfil.subirContenido(imagen: "pajarito", index: 5)
+                    redSocial.perfil.subirContenido(imagen: "paris", index: 3)
+                    redSocial.perfil.subirContenido(imagen: "gatito",index: 4 )
+                    redSocial.perfil.subirContenido(imagen: "pajarito", index: 5)
                     
                 }
                 HStack {
-                    perfil.subirContenido(imagen: "gatito",index: 6)
-                    perfil.subirContenido(imagen: "pajarito", index: 7)
-                    perfil.subirContenido(imagen: "paris", index: 8)
+                    redSocial.perfil.subirContenido(imagen: "gatito",index: 6)
+                    redSocial.perfil.subirContenido(imagen: "pajarito", index: 7)
+                    redSocial.perfil.subirContenido(imagen: "paris", index: 8)
                     
                     
                 }
@@ -118,5 +118,5 @@ struct VisitarPerfil: View {
     
    
     VisitarPerfil()
-        .environment(Perfil())
+        .environment(RedSocial())
 }

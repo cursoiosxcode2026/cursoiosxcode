@@ -12,14 +12,16 @@ enum ClavesStorage {
     static let ultimoLogin = "ultimo_login"
 }
 
+
+
 // Idem a lo anterior, pero con un acceso más abreviado a la constante
 // Ejemplo en cargarFechaLogin()
 extension String {
     static let ultimoLogin = "ultimo_login"
 }
 
-struct ContentView: View {
-
+struct PersistirDatosSimples: View {
+//"usuario" y "musicaActivada" son las claves
     @AppStorage("usuario") private var nombreUsuario = "Invitado"
     @AppStorage("musicaActivada") private var musicaActivada: Bool = false
     
@@ -71,5 +73,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    PersistirDatosSimples()
 }

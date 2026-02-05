@@ -11,10 +11,14 @@ import SwiftUI
 @main
 struct RedSocialApp: App {
     @State private var redSocial = RedSocial()
+    @State private var router = Router()
+    
     var body: some Scene {
         WindowGroup {
          VistaPrincipal()
+                .environment(router)
                 .environment(redSocial)
+                
 
         }
     }

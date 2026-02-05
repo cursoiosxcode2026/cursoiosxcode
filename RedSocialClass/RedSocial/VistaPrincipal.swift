@@ -6,48 +6,84 @@
 //
 
 import SwiftUI
+import Observation
+
+enum Destino: Hashable {
+    case principal
+    case buscador
+    case mensaje
+    case perfil
+}
+
+
+@Observable
+class Router {
+    var path = NavigationPath() //Crea una ruta vacia
+    
+    func navigate(to destination: Destino) {
+        path.append(destination)
+    }
+    
+    //Para volver atrás
+    func popRoute() {
+        path.removeLast()
+    }
+    
+    func popToRoot() {
+        path = NavigationPath() //Crea una ruta vacia de nuevo
+    }
+}
 
 struct VistaPrincipal: View {
-    @Environment(RedSocial.self) var redSocial
+    @Environment(RedSocial.self) private var redSocial
+    @Environment(Router.self) private var router
     
     var body: some View {
+        @Bindable var bindingRouter = router
         
-        
-        TabView(selection: Bindable(redSocial).tabSeleccionado) {
-      /*     NavigationStack {
-                            VistaPrincipal()
-                        }
-                        .tabItem { Label("Home", systemImage: "house") }
-                        .tag(0)
-           NavigationStack {
-                            VistaBuscador()
-                        }
-                        .tabItem { Label("Buscar", systemImage: "magnifyingglass") }
-                        .tag(1)
-
-           NavigationStack {
-                            VistaMensaje()
-                        }
-                        .tabItem { Label("Mensajes", systemImage: "paperplane") }
-                        .tag(2)
+        NavigationStack(path: $bindingRouter.path) {
             
-            NavigationStack {
-                           VistaPerfil()
-                       }
-                       .tabItem { Label("Perfil", systemImage: "person") }
-                       .tag(3)
-        }
-        .task {
-            await redSocial.cargarDatos()
-        }
-        .overlay {
-            if redSocial.cargando {
-                ProgressView("Cargando...")
+            VStack(spacing: 10) {
+               Button("Ir a vista principal") {
+                   router.popToRoot()
+                }
+                
+                Button("Ir a vista buscador") {
+                    
+                    router.navigate(to: .buscador)
+                }
+                
+                Button("Ir a vista mensaje") {
+                    router.navigate(to: .mensaje)
+                }
+                
+                Button("Ir a vista perfil") {
+                    router.navigate(to: .perfil)
+                }
+            }
+            .navigationDestination(for: Destino.self) { destino in
+                switch destino {
+               case .principal:
+                   Text("Prueba")
+                case .buscador:
+                VistaBuscador()
+                case .mensaje:
+                    VistaMensaje()
+                case .perfil:
+                    VistaPerfil()
+                    
+                }
+            }
+            
+            .onAppear {
+                print(router.path)
             }
         }
     }
 }
-
 #Preview {
     VistaPrincipal()
-}
+        .environment(Router())
+                .environment(RedSocial())
+        }
+

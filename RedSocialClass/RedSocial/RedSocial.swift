@@ -20,7 +20,19 @@ class RedSocial {
     }
     
     init() {
+        
+        perfil = Perfil(
+            nombre: "Juan Pérez",
+            titulo: "Creador de contenido",
+            descripcion: "Amante de los viajes y la fotografía",
+            reels: "1300",
+            seguidores: "12k",
+            seguidos: "3k"
+            )
+        
         print("Se ha creado una instancia de AppData: \(instanceId)")
+        
+
     }
     
     deinit {
