@@ -15,7 +15,7 @@ struct RedSocialApp: App {
     
     var body: some Scene {
         WindowGroup {
-         VistaPrincipal()
+         VistaPrincipal2()
                 .environment(router)
                 .environment(redSocial)
                 

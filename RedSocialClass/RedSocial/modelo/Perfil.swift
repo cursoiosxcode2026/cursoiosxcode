@@ -22,6 +22,16 @@ class Perfil {
     private var imagenActiva: Int? = nil
     private var ampliarPerfil = false
     
+    init(nombre: String, titulo: String, descripcion: String, reels: String, seguidores: String, seguidos: String) {
+        self.nombre = nombre
+        self.titulo = titulo
+        self.descripcion = descripcion
+        self.reels = reels
+        self.seguidores = seguidores
+        self.seguidos = seguidos
+
+    }
+    
     init() {
         self.nombre = ""
         self.titulo = ""
@@ -88,7 +98,7 @@ class Perfil {
             .foregroundStyle(.gray.opacity(0.3))
             .frame(width: 120,height: 120)
             .clipShape(Rectangle())
-            .scaleEffect(imagenActiva == index ? 1.75 : 1)
+            .scaleEffect(imagenActiva == index ? 1.5 : 1)
             .animation(.default, value: imagenActiva)
             .onTapGesture {
                 self.imagenActiva = (self.imagenActiva == index) ? nil : index

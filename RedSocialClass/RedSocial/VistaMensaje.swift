@@ -8,21 +8,50 @@
 import SwiftUI
 
 struct VistaMensaje: View {
-    
-  //  @Binding var mensajes: [Mensajes]
+    @State private var mensajes: [Mensaje] = (1...10).map { _ in Mensaje() }
     
     var body: some View {
-    
-   /* List(mensajes) { mensaje in
-              VistaMensajes(mensaje: mensaje)
-          }
-          .onAppear {
-              print("Mensajes: \(mensajes)")
-          }
-    */
+        
+        NavigationStack {
+            ScrollView() {
+                VStack(alignment: .leading) {
+                    
+                    LazyVStack(spacing: 10) {
+                        
+                        ForEach(mensajes, id: \.id) { mensaje in
+                            RoundedRectangle(cornerRadius: 15)
+                                .fill(.blue.gradient)
+                                .frame(height: 80)
+                                .padding(5)
+                                .overlay (
+                                    VStack{
+                                        Text(mensaje.emisor.nombre)
+                                        .foregroundStyle(.white)
+                                        .bold()
+                                        
+                                        Text(mensaje.mensajeAbreviado)
+                                            .foregroundStyle(.black.opacity(0.75))
+                                            .bold()
+                                    
+                        }
+                                )
+                                .onAppear {
+                                    print("Cargando Mensaje \(mensaje.id)")
+                                }
+                        }
+                    }
+                    
+                    .padding(.vertical)
+                    
+                }
+                
+            }
+            .navigationTitle(Text("Mensajes"))
+        }
+        
     }
 }
-
+        
 #Preview {
 
     VistaMensaje()

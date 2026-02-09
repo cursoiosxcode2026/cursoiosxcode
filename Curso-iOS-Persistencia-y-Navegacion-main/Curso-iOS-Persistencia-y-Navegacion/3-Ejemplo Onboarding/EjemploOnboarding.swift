@@ -82,6 +82,17 @@ class AppManager {
         
     }
     
+    func cerrarSesion() {
+        usuarioActual = nil
+        //En un entorno de producción borraríamos el token.
+        UserDefaults.standard.removeObject(forKey: claveUsuario)
+    }
+    
+    func borrarCuenta() {
+        borrarTodosItems()
+        cerrarSesion()
+    }
+    
     func anadirItem(titulo: String){
         let nuevoItem = Item(titulo: titulo)
         items.append(nuevoItem)
@@ -178,7 +189,7 @@ fileprivate struct VistaPrincipal: View {
                     }
                 }
             }
-            .navigationTitle("Hola, \(manager.usuarioActual!.nombreUsuario)")
+            .navigationTitle("Hola, \(manager.usuarioActual?.nombreUsuario ?? "anónimo")")
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     NavigationLink(destination: VistaSettings()) {
@@ -201,6 +212,21 @@ struct VistaSettings: View {
             Section("General") {
                 Button("Ver onboarding de nuevo") {
                     mostrarOnboarding = true
+                }
+            }
+            
+            Section("Zona de gestión") {
+                Button("Borrar todos mis artículos", role: .destructive) {
+                    manager.borrarTodosItems()
+                }
+                .disabled(manager.items.isEmpty)
+                
+                Button("Cerrar sesión") {
+                    manager.cerrarSesion()
+                }
+                
+                Button("Eliminar cuenta", role: .destructive) {
+                    manager.borrarCuenta()
                 }
             }
         }

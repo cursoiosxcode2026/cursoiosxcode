@@ -15,8 +15,13 @@ class Mensaje {
     let mensajeAbreviado: String
     
     init() {
-        self.emisor = Perfil()
-        self.mensajeAbreviado = ""
+        self.emisor = Perfil(nombre: "Juan Pérez",
+                             titulo: "Creador de contenido",
+                             descripcion: "Amante de los viajes y la fotografía",
+                             reels: "1300",
+                             seguidores: "12k",
+                             seguidos: "3k")
+        self.mensajeAbreviado = "Esto es un mensaje de prueba"
     }
     
     deinit {

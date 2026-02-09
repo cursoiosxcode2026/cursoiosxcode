@@ -14,10 +14,10 @@
             filePath = "Curso-iOS-Persistencia-y-Navegacion/3-Ejemplo Onboarding/EjemploOnboarding.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "242"
-            endingLineNumber = "242"
-            landmarkName = "crearPagina(color:titulo:desc:esUltima:)"
-            landmarkType = "7">
+            startingLineNumber = "268"
+            endingLineNumber = "268"
+            landmarkName = "VistaOnboarding"
+            landmarkType = "14">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -30,8 +30,8 @@
             filePath = "Curso-iOS-Persistencia-y-Navegacion/3-Ejemplo Onboarding/EjemploOnboarding.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "89"
-            endingLineNumber = "89"
+            startingLineNumber = "100"
+            endingLineNumber = "100"
             landmarkName = "anadirItem(titulo:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -46,9 +46,9 @@
             filePath = "Curso-iOS-Persistencia-y-Navegacion/3-Ejemplo Onboarding/EjemploOnboarding.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "192"
-            endingLineNumber = "192"
-            landmarkName = "VistaSettings"
+            startingLineNumber = "203"
+            endingLineNumber = "203"
+            landmarkName = "VistaPrincipal"
             landmarkType = "14">
          </BreakpointContent>
       </BreakpointProxy>
