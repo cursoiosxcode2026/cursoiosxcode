@@ -17,12 +17,18 @@ struct VistaPrincipal2: View {
         ("Perfil", .perfil, "Ver perfil")
     ]
     
+    let columnas = [
+        GridItem(.flexible(), spacing: 12),
+        GridItem(.flexible(), spacing: 12)
+    ]
+    
     var body: some View {
         @Bindable var bindingRouter = router
         
         NavigationStack(path: $bindingRouter.path) {
             ScrollView {
-                LazyVStack(spacing: 12) {
+                
+                LazyVGrid(columns: columnas, spacing: 12) {
                     ForEach(opciones, id: \.destino) { opcion in
                         VStack(alignment: .leading, spacing: 4) {
                             Text(opcion.titulo)
@@ -41,7 +47,7 @@ struct VistaPrincipal2: View {
                         }
                     }
                 }
-                .padding(.vertical)
+                .padding(.horizontal)
             }
             .navigationTitle("Inicio")
             .navigationDestination(for: Destino.self) { destino in
@@ -60,7 +66,7 @@ struct VistaPrincipal2: View {
     }
 }
 #Preview {
-    VistaPrincipal()
+    VistaPrincipal2()
         .environment(Router())
                 .environment(RedSocial())
         }

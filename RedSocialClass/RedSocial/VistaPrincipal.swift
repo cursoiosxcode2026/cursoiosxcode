@@ -43,7 +43,7 @@ struct VistaPrincipal: View {
         
         NavigationStack(path: $bindingRouter.path) {
             
-            VStack(spacing: 10) {
+            HStack(spacing: 10) {
                Button("Ir a vista principal") {
                    router.popToRoot()
                 }
