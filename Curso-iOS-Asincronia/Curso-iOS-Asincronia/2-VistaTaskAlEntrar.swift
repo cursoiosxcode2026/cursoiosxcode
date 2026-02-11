@@ -43,7 +43,7 @@ struct VistaTaskAlEntrar: View {
     func cargarPerfil() async {
         //simulamos la espera
         try? await Task.sleep(for: .seconds(2))
-        
+         
         nombre = "Pepito Pérez"
         biografia = "Estudiante de iOS y adicto al café"
     }
