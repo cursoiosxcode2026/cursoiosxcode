@@ -13,10 +13,11 @@ struct VistaRickAndMorty: View {
     @State private var errorMessage: String? = nil
 
     private let apiService = ApiService()
+    @State private var path = NavigationPath()
 
     var body: some View {
 
-        NavigationStack {
+        NavigationStack (path: $path){
             VStack {
 
                 if isLoading {
@@ -37,39 +38,47 @@ struct VistaRickAndMorty: View {
 
                 } else {
                     List(personajes) { personaje in
-                        HStack {
-
-                            //carga de la imagen
-
-                            AsyncImage(url: URL(string: personaje.image)) {
-                                imagen in
-                                imagen.resizable().scaledToFit()
-                            } placeholder: {
-                                Color.gray.opacity(0.3)
+                        
+                        NavigationLink(value: personaje) {
+                            HStack {
+                                
+                                //carga de la imagen
+                                
+                                AsyncImage(url: URL(string: personaje.image)) {
+                                    imagen in
+                                    imagen.resizable().scaledToFit()
+                                } placeholder: {
+                                    Color.gray.opacity(0.3)
+                                }
+                                .frame(width: 60, height: 60)
+                                .clipShape(Circle())
+                                
+                                VStack(alignment: .leading) {
+                                    Text(personaje.name)
+                                        .font(.headline)
+                                    Text(personaje.species)
+                                        .font(.caption)
+                                        .foregroundStyle(.secondary)
+                                }
+                                
+                                Spacer()
+                                
+                                Image(systemName: "circle.fill")
+                                    .foregroundStyle(
+                                        personaje.status == "Alive" ? .green : .red
+                                    )
+                                
                             }
-                            .frame(width: 60, height: 60)
-                            .clipShape(Circle())
-
-                            VStack(alignment: .leading) {
-                                Text(personaje.name)
-                                    .font(.headline)
-                                Text(personaje.species)
-                                    .font(.caption)
-                                    .foregroundStyle(.secondary)
-                            }
-
-                            Spacer()
-
-                            Image(systemName: "circle.fill")
-                                .foregroundStyle(
-                                    personaje.status == "Alive" ? .green : .red
-                                )
-
                         }
                     }
                 }
             }
             .navigationTitle("La API de Rick & Morty")
+            .navigationDestination(for: Personaje.self, destination: { personaje in
+                VistaDetallePersonaje(personaje: personaje, path: $path)
+                
+                
+            })
             .task {
                 await cargarDatos()
             }
