@@ -8,11 +8,8 @@
 import SwiftUI
 
 struct VistaRickAndMorty: View {
-    @State private var personajes: [Personaje] = []
-    @State private var isLoading: Bool = false
-    @State private var errorMessage: String? = nil
-
-    private let apiService = ApiService()
+    @State private var viewModel = RickAndMortyViewModel()
+    
     @State private var path = NavigationPath()
 
     var body: some View {
@@ -20,12 +17,12 @@ struct VistaRickAndMorty: View {
         NavigationStack (path: $path){
             VStack {
 
-                if isLoading {
+                if viewModel.isLoading {
                     ProgressView("Carga interdimensional...")
                         .controlSize(.large)
                     //si errorMessage no es nil, ejecutará
                     //este codigo:
-                } else if let errorMessage {
+                } else if let errorMessage = viewModel.errorMessage {
                     ContentUnavailableView(
                         "Error",
                         systemImage: "exclamationmark.triangle",
@@ -33,11 +30,11 @@ struct VistaRickAndMorty: View {
                     )
 
                     Button("Reintentar") {
-                        Task { await cargarDatos() }
+                        Task { await viewModel.cargarDatos() }
                     }
 
                 } else {
-                    List(personajes) { personaje in
+                    List(viewModel.personajes) { personaje in
                         
                         NavigationLink(value: personaje) {
                             HStack {
@@ -80,22 +77,10 @@ struct VistaRickAndMorty: View {
                 
             })
             .task {
-                await cargarDatos()
+                await viewModel.cargarDatos()
             }
         }
 
-    }
-
-    func cargarDatos() async {
-        isLoading = true
-        errorMessage = nil
-
-        do {
-            personajes = try await apiService.obtenerPersonajes()
-        } catch {
-            errorMessage = "No se pudieron cargar los personajes"
-        }
-        isLoading = false
     }
 }
 

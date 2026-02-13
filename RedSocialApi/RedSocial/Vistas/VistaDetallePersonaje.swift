@@ -5,23 +5,23 @@
 //  Created by Equipo 7 on 11/2/26.
 //
 
-import SwiftUI
+/*import SwiftUI
 
-struct VistaDetallePersonaje: View {
+struct VistaDetallePerfilView: View {
     
     @Binding var path: NavigationPath
-    @State private var viewModel: DetallePersonajeViewModel
+    @State private var viewModel: DetallePerfilViewModel
     
-    init(personaje: Personaje, path: Binding<NavigationPath>) {
+    init(perfil: Perfil, path: Binding<NavigationPath>) {
         self._path = path
-        self._viewModel = State(initialValue: DetallePersonajeViewModel(personaje: personaje))
+        self._viewModel = State(initialValue: DetallePerfilViewModel(perfil: perfil))
         
     }
     
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing:20) {
-                AsyncImage(url: URL(string: viewModel.personaje.image)) { img in
+                AsyncImage(url: URL(string: viewModel.perfil.image)) { img in
                     img.resizable().scaledToFit()
                 } placeholder: {
                     Color.gray.opacity(0.3)
@@ -29,7 +29,7 @@ struct VistaDetallePersonaje: View {
                 .frame(maxWidth: .infinity)
                 .frame(height: 300)
                 .overlay(alignment: .bottom) {
-                    Text(viewModel.personaje.name)
+                    Text(viewModel.perfil.username)
                         .font(.largeTitle.bold())
                         .foregroundStyle(.white)
                         .shadow(radius: 5)
@@ -48,10 +48,6 @@ struct VistaDetallePersonaje: View {
                         
                      Divider()
                         
-                        GridInfo(titulo: "Especie",valor: detalle.species,icono: "cat.circle")
-                        GridInfo(titulo: "Género", valor: detalle.gender, icono: "person.fill.questionmark")
-                        GridInfo(titulo: "Origen", valor: detalle.origin.name, icono: "globe")
-                        GridInfo(titulo: "Ubicación", valor: detalle.location.name, icono: "mappin.and.ellipse")
                         
                     }
                     .padding()
@@ -62,23 +58,23 @@ struct VistaDetallePersonaje: View {
                     //Lista de episodios
                     
                     VStack(alignment: .leading) {
-                        Text("Apariciones: \(viewModel.episodios.count)")
+                        Text("Apariciones: \(viewModel.post.count)")
                             .font(.title2.bold())
                             .padding(.horizontal)
                         
-                        ForEach(viewModel.episodios) { episodio in
+                        ForEach(viewModel.post) { post in
                             HStack {
-                                Text(episodio.episode)
+                                Text(post.name)
                                     .font(.caption)
                                     .padding(5)
                                     .background(.blue.opacity(0.2))
                                     .cornerRadius(5)
                                 
-                                Text(episodio.name)
+                                Text(post.name)
                                     .font(.body)
                                 
                                 Spacer()
-                                Text(episodio.air_date)
+                                Text(post.air_date)
                                     .font(.caption)
                                     .foregroundStyle(.secondary)
                                 
@@ -92,19 +88,19 @@ struct VistaDetallePersonaje: View {
                     }
                     //Lista de personajes relacionados
                     
-                    if !viewModel.personajesRelacionados.isEmpty {
+                    if !viewModel.perfilesRelacionados.isEmpty {
                         VStack(alignment: .leading, spacing: 10) {
-                            Text("Personajes relacionados")
+                            Text("Perfiles relacionados")
                                 .font(.title2.bold())
                                 .padding(.horizontal)
                                 .padding(.top)
                             
                             ScrollView(.horizontal,showsIndicators: false) {
                                 HStack(spacing: 15) {
-                                    ForEach(viewModel.personajesRelacionados) { personaje in
-                                        NavigationLink(value: personaje) {
+                                    ForEach(viewModel.perfilesRelacionados) { perfil in
+                                        NavigationLink(value: perfil) {
                                             VStack {
-                                                AsyncImage(url: URL(string: personaje.image)) { img in
+                                                AsyncImage(url: URL(string: perfil.image)) { img in
                                                     img.resizable().scaledToFill()
                                                 } placeholder: {
                                                     Color.gray.opacity(0.3)
@@ -113,7 +109,7 @@ struct VistaDetallePersonaje: View {
                                                 .clipShape(Circle())
                                                 .shadow(radius: 3)
                                                 
-                                                Text(personaje.name)
+                                                Text(perfil.username)
                                                     .font(.caption)
                                                     .lineLimit(2)
                                                     .multilineTextAlignment(.center)
@@ -170,16 +166,20 @@ struct GridInfo: View {
 #Preview {
 
     struct ContenedorPrevisualizacion: View {
-        let personaje = Personaje(id: 1 , name: "Rick Sanchez", status: "Alive", species: "Human", image: "https://rickandmortyapi.com/api/character/avatar/1.jpeg")
+        let perfil = Perfil(id: 1,
+                           username: "emilys" ,
+                           password:"emilyspass" ,
+                           titulo: "admin",
+                           image: "https://dummyjson.com/icon/emilys/128" )
         
         @State private var path = NavigationPath()
         
         var body: some View {
             NavigationStack(path: $path) {
-                VistaDetallePersonaje(personaje: personaje, path: $path)
+                VistaDetallePerfil(perfil: perfil, path: $path)
                 
-                    .navigationDestination(for: Personaje.self) { personaje in
-                        VistaDetallePersonaje(personaje: personaje, path: $path)
+                    .navigationDestination(for: Perfil.self) { perfil in
+                        VistaDetallePerfil(perfil: perfil, path: $path)
                     }
             }
         }
@@ -187,3 +187,90 @@ struct GridInfo: View {
     return ContenedorPrevisualizacion()
   
 }
+*/
+import SwiftUI
+
+struct VistaDetallePerfil: View {
+    
+    @Binding var path: NavigationPath
+    @State private var viewModel: DetallePerfilViewModel
+    
+    init(perfil: Perfil, path: Binding<NavigationPath>) {
+        self._path = path
+        self._viewModel = State(initialValue: DetallePerfilViewModel(perfil: perfil))
+    }
+    
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 20) {
+                AsyncImage(url: URL(string: viewModel.perfil.image)) { img in
+                    img.resizable().scaledToFit()
+                } placeholder: {
+                    Color.gray.opacity(0.3)
+                }
+                .frame(height: 300)
+                
+                Text(viewModel.detalle?.titulo ?? viewModel.perfil.titulo)
+                    .font(.largeTitle.bold())
+                    .padding()
+                
+                if viewModel.isLoading {
+                    ProgressView("Cargando detalles...")
+                } else {
+                    VStack(alignment: .leading) {
+                        Text("Posts: \(viewModel.post.count)")
+                            .font(.headline)
+                        ForEach(viewModel.post) { post in
+                            HStack {
+                                Text(post.name)
+                                Spacer()
+                                Text(post.air_date).font(.caption).foregroundStyle(.secondary)
+                            }
+                        }
+                    }
+                    
+                    if !viewModel.perfilesRelacionados.isEmpty {
+                        VStack(alignment: .leading) {
+                            Text("Perfiles relacionados")
+                                .font(.title2.bold())
+                                .padding(.vertical)
+                            ScrollView(.horizontal, showsIndicators: false) {
+                                HStack {
+                                    ForEach(viewModel.perfilesRelacionados) { perfil in
+                                        NavigationLink(value: perfil) {
+                                            VStack {
+                                                AsyncImage(url: URL(string: perfil.image)) { img in
+                                                    img.resizable().scaledToFill()
+                                                } placeholder: {
+                                                    Color.gray.opacity(0.3)
+                                                }
+                                                .frame(width: 80, height: 80)
+                                                .clipShape(Circle())
+                                                Text(perfil.username)
+                                                    .font(.caption)
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            .padding()
+        }
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button {
+                    path = NavigationPath()
+                } label: {
+                    Image(systemName: "house.fill")
+                }
+            }
+        }
+        .task {
+            await viewModel.cargarDatosCompletos()
+        }
+    }
+}
+
