@@ -4,79 +4,6 @@
 //
 //  Created by Equipo 7 on 13/2/26.
 //
-/*import SwiftUI
-import Observation
-
-@Observable
-class DetallePerfilViewModel {
-    let perfil: Perfil
-    var detalle: PerfilDetalle?
-    var post: [Post] = []
-    var perfilesRelacionados: [Perfil] = []
-    
-    var isLoading = true
-    
-    private let apiService: ApiService
-    
-    init(perfil: Perfil, apiService: ApiService = ApiService.instancia) {
-        self.perfil = perfil
-        self.apiService = apiService
-    }
-    
-    
-    func cargarDatosCompletos() async {
-        do {
-            let datosDetalle = try await apiService.obtenerDetallePersonaje(id: perfil.id)
-            self.detalle = datosDetalle
-            
-            if !datosDetalle.post.isEmpty {
-                self.post = try await apiService.obtenerPosts(urls: datosDetalle.post)
-                print("Post cargados: \(post.count)")
-            }
-            
-            if !post.isEmpty {
-                try await cargarPerfilesRelacionados()
-            }
-            
-            isLoading = false
-            
-        } catch {
-            print("Error cargando detalles del perfil \(error)")
-        }
-    }
-    
-    func cargarPerfilesRelacionados() async throws {
-        var urlsPerfiles: Set<String> = Set()
-        
-        for post in post {
-            
-            for perfilUrl in post.name {
-                urlsPerfiles.insert(perfilUrl)
-            }
-        }
-    
-        let ids: [Int] = urlsPerfiles.compactMap { urlString in
-            guard let idString = urlString.split(separator: "/").last else { return nil }
-            return Int(idString)
-        }
-            .filter { id in
-              //Quitamos al perfil actual (self.perfil) de la lista:
-                return id != perfil.id
-            }
-        
-        //Limitamos el número de personajes que solicitamos al mostrar
-        //Ademas usamos shuffled() para que nos devuelva una lista aleatoria
-        let idsLimitados = Array(ids.shuffled().prefix(10))
-    
-        self.perfilesRelacionados = try await apiService.obtenerPerfilesPorIds(ids: idsLimitados)
-        
-    
-        print("Cargados \(self.perfilesRelacionados.count) perfiles relacionados.")
-    }
-}
-
-*/
-
 import SwiftUI
 import Observation
 
@@ -86,24 +13,30 @@ class DetallePerfilViewModel {
     var detalle: PerfilDetalle?
     var post: [Post] = []
     var perfilesRelacionados: [Perfil] = []
-    
+    private let viewModel : RedSocialViewModel
     var isLoading = true
     
     private let apiService: ApiService
     
-    init(perfil: Perfil, apiService: ApiService = ApiService.instancia) {
+    init(perfil: Perfil, viewModel: RedSocialViewModel, apiService: ApiService = ApiService.instancia) {
         self.perfil = perfil
+        self.viewModel = viewModel
         self.apiService = apiService
+        
     }
     
     func cargarDatosCompletos() async {
         do {
-            var detalle = try await apiService.obtenerDetallePersonaje(id: perfil.id)
+            var detalle = try await apiService.obtenerDetallePerfil(id: perfil.id)
             
             // Simulamos posts
-            self.post = detalle.post.enumerated().map {
+           /* self.post = detalle.post.enumerated().map {
                 Post(id: $0.offset, name: $0.element, air_date: "2026-02-13")
             }
+            let cantidadAleatoria = Int.random(in: 1...30)
+            self.post = try await apiService.obtenerPostsAleatorios(cantidad: cantidadAleatoria )
+            */
+       //     self.post = try await viewModel.cargarPostsParaPerfil(perfil)
             
             self.detalle = detalle
             

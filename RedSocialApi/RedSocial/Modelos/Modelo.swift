@@ -10,13 +10,14 @@ import Foundation
 struct Perfil: Codable, Identifiable, Hashable {
     let id: Int
     let username: String
-    let password: String
-    var titulo: String
+    let password: String?
     let image: String
     let company: Company?
     
+    var titulo: String?
     
-    struct Company: Codable, Hashable, Equatable {
+    
+    struct Company: Codable, Hashable {
         let title: String
     }
 }
@@ -24,8 +25,8 @@ struct Perfil: Codable, Identifiable, Hashable {
 struct PerfilDetalle: Codable, Identifiable {
     let id: Int
     let username: String
-    let password: String
-    var titulo: String
+    let password: String?
+    var titulo: String?
     let image: String
     
     let email: String
@@ -34,10 +35,23 @@ struct PerfilDetalle: Codable, Identifiable {
     
 }
 
-struct Post: Codable, Identifiable {
+struct Post: Codable, Identifiable, Hashable {
     let id: Int
     let name: String
+    let body: String
+    let reactions: Reactions
     let air_date: String
+    var image: String = ""
+    
+    struct Reactions: Codable, Hashable {
+        let likes: Int
+        let dislikes: Int
+    }
+    
+    var likes: Int { reactions.likes }
+    var dislikes: Int { reactions.dislikes }
+    
+    
 }
 
 //La API nos devuelve los personajes en un array de Personajes,

@@ -4,48 +4,17 @@
 //
 //  Created by Equipo 7 on 13/2/26.
 //
-
-/*import SwiftUI
-import Observation
-
-@Observable
-class RedSocialViewModel {
-    var perfiles: [Perfil] = []
-    var isLoading: Bool = false
-    var errorMessage: String? = nil
-    
-    private let apiService : ApiService
-    
-    //pasamos apiServicee como parámetro para poder testearlo
-    //o usarlo mientras desarrollamos
-    //Por defecto le pasamos una instancia de ApiService
-    init(apiService: ApiService = ApiService.instancia) {
-        self.apiService = apiService
-    }
-    
-    func cargarDatos() async {
-        isLoading = true
-        errorMessage = nil
-
-        do {
-            perfiles = try await apiService.obtenerPerfiles()
-        } catch {
-            errorMessage = "No se pudieron cargar los perfiles"
-        }
-        isLoading = false
-    }
-    
-}
-*/
-
 import SwiftUI
 import Observation
 
 @Observable
 class RedSocialViewModel {
     var perfiles: [Perfil] = []
+    var postsPorPerfil: [Int: [Post]] = [:]
+    
     var isLoading = false
     var errorMessage: String? = nil
+
     
     private let apiService: ApiService
     
@@ -53,6 +22,17 @@ class RedSocialViewModel {
         self.apiService = apiService
     }
     
+    func cargarPostsParaPerfil(_ perfil: Perfil) async throws -> [Post] {
+        if let postsGuardados = postsPorPerfil[perfil.id] {
+            // Si ya hay posts guardados, los devolvemos
+            return postsGuardados
+        } else {
+            // Si no hay, generamos posts aleatorios y los guardamos
+            let posts = try await apiService.obtenerPostsAleatorios(cantidad: Int.random(in: 1...30))
+            postsPorPerfil[perfil.id] = posts
+            return posts
+        }
+    }
     func cargarDatos() async {
         await MainActor.run { isLoading = true }
         do {
@@ -63,7 +43,10 @@ class RedSocialViewModel {
             }
         } catch {
             await MainActor.run { errorMessage = "No se pudieron cargar los perfiles" }
+            print("❌ ERROR EN VIEWMODEL:", error)
         }
+        
+        
         await MainActor.run { isLoading = false }
     }
 }
