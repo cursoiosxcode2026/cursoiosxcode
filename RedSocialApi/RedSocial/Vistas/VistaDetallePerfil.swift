@@ -16,9 +16,9 @@ struct VistaDetallePerfil: View {
     init(perfil: Perfil, path: Binding<NavigationPath>, rsViewModel: RedSocialViewModel) {
         self._path = path
         self.rsViewModel = rsViewModel
-      //  self._viewModel = State(initialValue: DetallePerfilViewModel(perfil: perfil))
+      //self._viewModel = State(initialValue: DetallePerfilViewModel(perfil: perfil))
         
-        self._viewModel = StateObject(wrappedValue: DetallePerfilViewModel(perfil: perfil, viewModel: rsViewModel))
+        self._viewModel = State(wrappedValue: DetallePerfilViewModel(perfil: perfil, viewModel: rsViewModel))
         
     }
     

@@ -54,7 +54,11 @@ struct VistaRedSocial: View {
             }
             .navigationTitle("Red Social")
             .navigationDestination(for: Perfil.self) { perfil in
-                VistaDetallePerfil(perfil: perfil, path: $path)
+                VistaDetallePerfil(
+                    perfil: perfil,
+                    path: $path,
+                    rsViewModel: viewModel
+                )
             }
             .task {
                 await viewModel.cargarDatos()
