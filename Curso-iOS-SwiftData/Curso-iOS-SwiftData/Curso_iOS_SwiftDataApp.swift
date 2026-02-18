@@ -14,6 +14,7 @@ struct Curso_iOS_SwiftDataApp: App {
         WindowGroup {
             VistaTareas()
         }
-        .modelContainer(for: Tarea.self)
+      //  .modelContainer(for: Tarea.self)
+        .modelContainer(for: [Estudiante.self, Curso.self, Matricula.self])
     }
 }
