@@ -13,12 +13,12 @@ class DetallePerfilViewModel {
     var detalle: PerfilDetalle?
     var post: [Post] = []
     var perfilesRelacionados: [Perfil] = []
-    private let viewModel : RedSocialViewModel
+    private let viewModel : SeguidoresSeguidosViewModel
     var isLoading = true
     
     private let apiService: ApiService
     
-    init(perfil: Perfil, viewModel: RedSocialViewModel, apiService: ApiService = ApiService.instancia) {
+    init(perfil: Perfil, viewModel: SeguidoresSeguidosViewModel, apiService: ApiService = ApiService.instancia) {
         self.perfil = perfil
         self.viewModel = viewModel
         self.apiService = apiService
