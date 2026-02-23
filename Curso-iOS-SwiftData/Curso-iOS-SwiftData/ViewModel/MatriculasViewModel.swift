@@ -21,11 +21,11 @@ class MatriculasViewModel {
     
     init(context: ModelContext) {
         self.context = context
-        cargarDatos()
+        cargarMatriculas()
     
     }
     
-    func cargarDatos(nombreAlumno: String? = nil) {
+    func cargarMatriculas(nombreAlumno: String? = nil) {
         do {
             
             let descriptorTodas = FetchDescriptor<Matricula>(
@@ -44,11 +44,28 @@ class MatriculasViewModel {
             
             matriculasAprobadas = try context.fetch(descriptorAprobadas)
             
-            
+            if let nombreABuscar = nombreAlumno {
+                
+                let filtroAlumno = #Predicate<Matricula> { matricula in
+                    matricula.estudiante? .nombre.contains(nombreABuscar) == true
+                }
+                
+                let descriptorAlumnos = FetchDescriptor<Matricula>(predicate: filtroAlumno)
+                
+                matriculasDeAlumno = try context.fetch(descriptorAlumnos)
+            }
         } catch {
             print("Error cargando matrículas: \(error)")
         }
         
+    }
+    
+    func eliminarMatricula(matricula: Matricula) {
+        context.delete(matricula)
+        //Hay que recargar los arrays para que la UI se entere que
+        //hemos borrado
+        
+        cargarMatriculas()
     }
     
     

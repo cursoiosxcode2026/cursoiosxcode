@@ -11,47 +11,53 @@ import SwiftData
 
 struct  VistaMatriculas: View {
     
-    @Query(sort: \Matricula.fechaMatricula, order: .reverse)
-    private var matriculas: [Matricula]
+    @Environment(\.modelContext) private var context
+    @State private var viewModel: MatriculasViewModel
     
-    @Query(filter: #Predicate<Matricula> {
-        ($0.calificacion ?? 0.0) >= 5.0
-    })
-    private var matriculasAprobadas: [Matricula]
-    
-    @Query(filter: #Predicate<Matricula> {
-        $0.estudiante?.nombre.contains("Ana") == true
-    })
-    private var matriculasDeAna: [Matricula]
+    init(context: ModelContext) {
+        _viewModel = State(initialValue: MatriculasViewModel(context: context))
+        
+    }
     
     var body: some View {
         NavigationStack {
             List {
                 Section("Todas las matriculas") {
                     
-                    ForEach(matriculas) { matricula in
+                    ForEach(viewModel.todasLasMatriculas) { matricula in
                         VStack(alignment: .leading) {
                             Text("\(matricula.estudiante?.nombre ?? "N/A") - \(matricula.curso?.nombre ?? "N/A")")
                                  
                                  Text("Semestre: \(matricula.semestre)")
                         }
                     }
+                    .onDelete { indices in
+                        indices.forEach { indice in
+                            let matricula = viewModel.todasLasMatriculas[indice]
+                            viewModel.eliminarMatricula(matricula: matricula)
+                        }
+                        
+                        
+                    }
                 }
                 Section("Matriculas aprobadas") {
-                    ForEach(matriculasAprobadas) { matricula in
+                    ForEach(viewModel.matriculasAprobadas) { matricula in
                         Text("\(matricula.estudiante?.nombre ?? "N/A"): \(matricula.calificacion ?? 0.0, specifier: "%.2f")")
                     }
                 }
                 
-                Section("Matriculas de Ana") {
-                    ForEach(matriculasDeAna) { matricula in
+                Section("Matriculas de un alumno concreto") {
+                    ForEach(viewModel.matriculasDeAlumno) { matricula in
                         Text("\(matricula.estudiante?.nombre ?? "N/A"): \(matricula.calificacion ?? 0.0, specifier: "%.2f")")
                     }
                 }
-            
             }
             
             .navigationTitle("Matriculas")
+            
+            .onAppear {
+                viewModel.cargarMatriculas(nombreAlumno: "Carlos")
+            }
         }
         
     }
