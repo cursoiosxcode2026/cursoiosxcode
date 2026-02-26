@@ -10,10 +10,6 @@ import SwiftUI
 import SwiftData
 
 struct VistaEstudiante: View {
-   /* @Environment(\.modelContext) private var context
-    @Query private var estudiantes: [Estudiante]
-    @State private var mostrarNuevoEstudiante = false
-    */
     
     @State private var viewModel: EstudianteViewModel
     
@@ -26,7 +22,14 @@ struct VistaEstudiante: View {
                 ForEach(viewModel.estudiantes) { estudiante in
                     VStack(alignment: .leading) {
                         //TODO
-                        NavigationLink(destination: VistaDetalleEstudiante(viewModel: viewModel )) {
+                        NavigationLink(
+                            destination: VistaDetalleEstudiante(
+                                viewModel: DetalleEstudianteViewModel(
+                                    estudiante: estudiante,
+                                    context: viewModel.context
+                                )
+                            )
+                        )  {
                                 VStack (alignment: .leading) {
                                     Text(estudiante.nombre)
                                         .font(.headline)
@@ -41,12 +44,6 @@ struct VistaEstudiante: View {
                             }
                     }
                 }
-  /*              .onDelete {indices in
-                    for indice in indices {
-                        context.delete(estudiantes[indice])
-                    }
-                }
-   */
                 
                 .onDelete { indices in
                     indices.forEach { indice in
@@ -76,9 +73,6 @@ struct VistaEstudiante: View {
             .onAppear {
                 viewModel.cargarEstudiantes()
             }
-//            .sheet(isPresented: $viewModel.mostrarNuevoEstudiante) {
-//                VistaNuevoEstudiante(context: viewModel.context)
-//            }
         }
     }
 }

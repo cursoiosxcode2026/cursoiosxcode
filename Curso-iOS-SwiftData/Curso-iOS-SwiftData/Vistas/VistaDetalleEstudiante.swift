@@ -10,10 +10,7 @@ import SwiftUI
 import SwiftData
 
 struct VistaDetalleEstudiante : View {
-   /* let estudiante: Estudiante
-    @Environment(\.modelContext) private var context
-    @State private var mostrarMatricular = false */
-    var viewModel: DetalleEstudianteViewModel
+    @Bindable  var viewModel: DetalleEstudianteViewModel
     
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
@@ -49,7 +46,7 @@ struct VistaDetalleEstudiante : View {
                                 
                                 Spacer()
                                 Button("Eliminar") {
-                                    //context.delete(matricula)
+                                    viewModel.eliminarMatriculaEstudiante(matricula: matricula)
                                 }
                                 .buttonStyle(.bordered)
                                 .tint(.red)
@@ -75,10 +72,10 @@ struct VistaDetalleEstudiante : View {
                 }
             }
         }
-       /* .sheet(isPresented: $viewModel.mostrarMatricular) {
-            VistaMatricularEstudiante(estudiante: viewModel.estudiante)
+       .sheet(isPresented: $viewModel.mostrarMatricular) {
+           VistaMatricularEstudiante(estudiante: viewModel.estudiante )
     
         }
-        */
+        
     }
 }

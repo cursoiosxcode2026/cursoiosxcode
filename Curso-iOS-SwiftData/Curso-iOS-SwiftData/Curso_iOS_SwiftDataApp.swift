@@ -12,7 +12,8 @@ import SwiftData
 struct Curso_iOS_SwiftDataApp: App {
     var body: some Scene {
         WindowGroup {
-            VistaTareas()
+           // VistaTareas()
+            ContentView()
         }
       //  .modelContainer(for: Tarea.self)
         .modelContainer(for: [Estudiante.self, Curso.self, Matricula.self])

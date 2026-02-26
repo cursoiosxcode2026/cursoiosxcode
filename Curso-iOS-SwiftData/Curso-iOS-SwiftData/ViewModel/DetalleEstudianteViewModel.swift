@@ -19,9 +19,9 @@ class DetalleEstudianteViewModel {
         self.context = context
     }
         
- /*   func eliminarMatriculaEstudiante(matricula: Matricula) {
+    func eliminarMatriculaEstudiante(matricula: Matricula) {
         context.delete(matricula)
-    }*/
+    }
     
     func mostrarMatriculas () {
         mostrarMatricular = true
