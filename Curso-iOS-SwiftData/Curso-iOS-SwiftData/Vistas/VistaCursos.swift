@@ -1,7 +1,7 @@
 //
 //  VistaCursos.swift
 //  Curso-iOS-SwiftData
-//
+//-
 //  Created by Equipo 7 on 23/2/26.
 //
 

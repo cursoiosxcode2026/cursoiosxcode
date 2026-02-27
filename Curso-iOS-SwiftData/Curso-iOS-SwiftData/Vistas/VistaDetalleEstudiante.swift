@@ -10,7 +10,14 @@ import SwiftUI
 import SwiftData
 
 struct VistaDetalleEstudiante : View {
-    @Bindable  var viewModel: DetalleEstudianteViewModel
+    @State var viewModel: DetalleEstudianteViewModel
+    @Environment(\.dismiss) private var dismiss
+    
+    @Query private var cursos: [Curso]
+    var cursosNoMatriculados: [Curso] {
+        let cursosMatriculados = viewModel.estudiante.cursos
+        return cursos.filter { !cursosMatriculados.contains($0)}
+    }
     
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
@@ -72,9 +79,19 @@ struct VistaDetalleEstudiante : View {
                 }
             }
         }
-       .sheet(isPresented: $viewModel.mostrarMatricular) {
+   /*   .sheet(isPresented: $viewModel.mostrarMatricular) {
            VistaMatricularEstudiante(estudiante: viewModel.estudiante )
-    
+        }*/
+        
+        .sheet(isPresented: $viewModel.mostrarMatricular) {
+            VistaMatricularEstudiante(
+                viewModel: MatricularEstudianteViewModel(
+                    estudiante: viewModel.estudiante,
+                    cursos: cursosNoMatriculados, // o el array de cursos que quieras mostrar
+                    context: viewModel.context,
+                    dismiss: dismiss
+                )
+            )
         }
         
     }
