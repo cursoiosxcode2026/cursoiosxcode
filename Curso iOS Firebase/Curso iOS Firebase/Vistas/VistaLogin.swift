@@ -1,8 +1,8 @@
 //
-//  SwiftUIView.swift
+//  VistaLogin.swift
 //  Curso iOS Firebase
 //
-//  Created by Equipo 7 on 2/3/26.
+//  Created by Equipo 2 on 2/3/26.
 //
 
 import SwiftUI
@@ -12,12 +12,12 @@ struct VistaLogin: View {
     
     @State private var email: String = ""
     @State private var password: String = ""
+    @State private var seEstaRegistrando = false // ¿Registrando o haciendo login?
     @State private var logeando = false
-    @State private var seEstaRegistrando = false //¿Registrando o haciendo loging?
     @State private var mensajeError: String?
     
     var body: some View {
-        VStack(spacing: 20){
+        VStack(spacing: 20) {
             Text(seEstaRegistrando ? "Crear cuenta" : "Bienvenido/a")
                 .font(.largeTitle)
                 .bold()
@@ -36,6 +36,7 @@ struct VistaLogin: View {
                     .font(.caption)
             }
             
+            // Botón de inicio de sesión o de registro
             Button {
                 logeando = true
                 Task {
@@ -56,7 +57,7 @@ struct VistaLogin: View {
                 seEstaRegistrando.toggle()
                 mensajeError = nil
             } label: {
-                Text(seEstaRegistrando ? "¿Ya tienes cuenta? ¡Entra!": "¿No tienes cuenta? ¡Regístrate!")
+                Text(seEstaRegistrando ? "¿Ya tienes cuenta? ¡Entra!" : "¿No tienes cuenta? ¡Regístrate!")
                     .foregroundStyle(.blue)
             }
         }
@@ -70,7 +71,6 @@ struct VistaLogin: View {
             } else {
                 try await authManager.login(email: email, pass: password)
             }
-            
             logeando = false
         } catch {
             mensajeError = error.localizedDescription
@@ -79,7 +79,6 @@ struct VistaLogin: View {
     }
 }
 
-/*#Preview {
-    VistaLogin()
-}
-*/
+//#Preview {
+//    VistaLogin()
+//}
