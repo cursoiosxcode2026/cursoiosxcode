@@ -27,7 +27,7 @@ class DetallePerfilViewModel {
     
     func cargarDatosCompletos() async {
         do {
-            var detalle = try await apiService.obtenerDetallePerfil(id: perfil.id)
+            let detalle = try await apiService.obtenerDetallePerfil(id: perfil.id)
             
             // Simulamos posts
            /* self.post = detalle.post.enumerated().map {

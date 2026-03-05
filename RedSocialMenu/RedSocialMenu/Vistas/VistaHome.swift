@@ -9,10 +9,22 @@ import SwiftUI
 
 struct VistaHome: View {
     
+    @State private var viewModel = DetallePerfilViewModel(
+        perfil: Perfil(
+            id: 1,
+            username: "Paloma",
+            password: "1234",
+            image: "",
+            company: nil,
+            titulo: "Tester"
+        ),
+        viewModel: SeguidoresSeguidosViewModel()
+    )
+    
     var body: some View {
         TabView {
             
-          Text("VistaFeed()")
+          VistaFeed(viewModel: viewModel)
                 .tabItem {
                     Label("Feed", systemImage: "house")
                 }
