@@ -10,20 +10,16 @@ import FirebaseFirestore
 
 enum ConstantesFirestore {
     static let coleccionGastos = "gastos"
+    static let coleccionCategorias = "categorias"
 }
 
-// TODO: temporal
-protocol GastosViewModelProtocol: Observable {
-    var gastos: [Gasto] { get set }
-    var importeTotal: Double { get set }
-    func escucharDatos()
-    func anadirGasto(titulo: String, importe: Double, categoria: CategoriaGastos)
-    func borrarGasto(indices: IndexSet)
-}
+
 
 @Observable
-class GastosViewModel: GastosViewModelProtocol {
+class GastosViewModel {
     var gastos: [Gasto] = []
+    var categorias: [Categoria] = []
+    
     var importeTotal: Double = 0.0
     private var db = Firestore.firestore()
     private var idUsuario: String
@@ -51,16 +47,29 @@ class GastosViewModel: GastosViewModelProtocol {
                     //$0 contiene el acumulado hasta el momento $1.importe el importe de un gasto
                     //reduce(0) indica que empezamos a acumular a partir de 0 (el importe total empieza en 0)
                     self.importeTotal = self.gastos.reduce(0) { $0 + $1.importe }
+            }
+        
+        //Consulta para escuchar cambios en categoría
+        db.collection(ConstantesFirestore.coleccionCategorias)
+            .whereField(Gasto.CodingKeys.idUsuario.rawValue, isEqualTo: idUsuario)
+            .addSnapshotListener { snapshot, error in
+                guard let documents = snapshot?.documents else {
+                    print("Error al leer los documentos: \(error?.localizedDescription ?? "Error desconocido")")
+                    return
+                }
                 
+                self.categorias = documents.compactMap { doc -> Categoria? in
+                    try? doc.data(as:Categoria.self)
+                }
             }
     }
     
-    func anadirGasto(titulo: String, importe: Double, categoria: CategoriaGastos) {
+    func anadirGasto(titulo: String, importe: Double, idCategoria: String) {
         let nuevoGasto = Gasto(titulo: titulo,
                                importe: importe,
                                fecha: Date(),
-                               categoria: categoria,
-                               idUsuario: idUsuario)
+                               idUsuario: idUsuario,
+                               idCategoria: idCategoria)
         do {
             try db.collection(ConstantesFirestore.coleccionGastos).addDocument(from: nuevoGasto)
         } catch {
@@ -80,5 +89,33 @@ class GastosViewModel: GastosViewModelProtocol {
                 }
             }
         }
+    }
+    
+    func actualizarGasto(_ gasto: Gasto) {
+        guard let idGasto = gasto.id else {return}
+        do {
+            try db.collection(ConstantesFirestore.coleccionGastos)
+            .document(idGasto)
+            .setData(from: gasto, merge: true)
+        } catch {
+            print("Error al actualizar: \(error.localizedDescription)")
+        }
+         
+        
+    }
+    func anadirCategoria(nombre: String, icono: String, color: String) {
+        let categoria = Categoria(nombre: nombre, icono: icono, nombreColor: color, idUsuario: idUsuario)
+        
+        do {
+            try db.collection(ConstantesFirestore.coleccionCategorias).addDocument(from: categoria)
+        } catch {
+            print("Error guardando \(error)")
+        }
+        
+    }
+    
+    //funcion heleper para casar la categoria que corresponde a un gasto
+    func obtenerCategorias(id: String) -> Categoria? {
+        categorias.first { $0.id == id }
     }
 }

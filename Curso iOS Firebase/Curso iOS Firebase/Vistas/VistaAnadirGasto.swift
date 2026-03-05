@@ -9,11 +9,15 @@ import SwiftUI
 
 struct VistaAnadirGasto: View {
     @Environment(\.dismiss) private var dismiss
-    var viewModel: any GastosViewModelProtocol
+    var viewModel: GastosViewModel
+    
+    var gastoEditable: Gasto?
     
     @State private var titulo = ""
     @State private var importe: Double = 0.0
-    @State private var categoria: CategoriaGastos = .sinCategoria
+    @State private var idCategoriaSeleccionada: String = ""
+    
+    @State private var mostrarCategorias = false
     
     var body: some View {
         NavigationStack {
@@ -22,31 +26,69 @@ struct VistaAnadirGasto: View {
                 
                 TextField("Importe", value: $importe, format: .number)
                     .keyboardType(.decimalPad)
-                Picker("Categoría", selection: $categoria) {
-                    ForEach(CategoriaGastos.allCases, id: \.self) { categoria in
-                        Label(categoria.rawValue, systemImage: categoria.nombreIcono)
-                            .tag(categoria)
+                Picker("Categoría", selection: $idCategoriaSeleccionada) {
+                    if viewModel.categorias.isEmpty {
+                        Text("No hay categorías")
+                            .tag("")
+                    }
+                    ForEach(viewModel.categorias) { categoria in
+                        HStack {
+                            Image(systemName: categoria.icono)
+                            Text(categoria.nombre)
+                        }
+                        .tag(categoria.id ?? "")
+                    }
+                }
+                .onAppear {
+                    if let gasto = gastoEditable {
+                        titulo = gasto.titulo
+                        importe = gasto.importe
+                        idCategoriaSeleccionada = gasto.idCategoria
+                    } else {
+                        //Preseleccionar la primera categoria que haya, si existe
                         
+                        if let primera = viewModel.categorias.first, idCategoriaSeleccionada.isEmpty {
+                         idCategoriaSeleccionada = primera.id ?? ""
+                        }
                     }
                 }
             }
-            .navigationTitle("Nuevo gasto")
+            .navigationTitle(gastoEditable == nil ? "Nuevo gasto" : "Editar gasto")
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancelar") { dismiss() }
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Guardar") {
-                        viewModel.anadirGasto(titulo: titulo, importe: importe, categoria: categoria)
+                        guardar()
                         dismiss()
                     }
                     .disabled(titulo.isEmpty || importe == 0)
                 }
+                ToolbarItem(placement: .bottomBar) {
+                    Button("Categorias"){
+                        mostrarCategorias = true
+                    }
+                    .tint(.orange)
+                }
             }
+            .sheet(isPresented: $mostrarCategorias) {
+               mostrarCategorias = false
+            } content: {
+                VistaNuevaCategoria(viewModel: viewModel)
+            }
+        }
+    }
+    
+    func guardar() {
+        if var gasto = gastoEditable {
+            gasto.titulo = titulo
+            gasto.importe = importe
+            gasto.idCategoria = idCategoriaSeleccionada
+            viewModel.actualizarGasto(gasto)
+        } else {
+            viewModel.anadirGasto(titulo: titulo, importe: importe, idCategoria: idCategoriaSeleccionada)
         }
     }
 }
 
-#Preview {
-    VistaAnadirGasto(viewModel: GastosViewModelMock(idUsuario: "apsdfi"))
-}
