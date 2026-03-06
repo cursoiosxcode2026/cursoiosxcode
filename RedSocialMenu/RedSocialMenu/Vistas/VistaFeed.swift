@@ -27,8 +27,25 @@ struct VistaFeed: View {
                 
                 Text("Feed de \(viewModel.perfil.username)")
                 
-                List(viewModel.post) { post in
-                    Text(post.name)
+                ForEach(viewModel.post) { post in
+                    HStack(){
+                        NavigationLink {
+                            VistaDetallePost(post: post)
+                        } label: {
+                            AsyncImage(url: URL(string: post.image)) { image in
+                                image
+                                    .resizable()
+                                    .scaledToFill()
+                            } placeholder: {
+                                Color.gray.opacity(0.3)
+                            }
+                            .frame(width: 50, height: 50)
+                            .clipShape(Rectangle())
+                        }
+                       Text(post.name)
+                        Spacer()
+                        Text(post.air_date).font(.caption).foregroundStyle(.secondary)
+                    }
                 }
             }
             .task {

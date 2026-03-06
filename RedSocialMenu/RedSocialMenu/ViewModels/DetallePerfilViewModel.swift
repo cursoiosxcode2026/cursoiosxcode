@@ -13,7 +13,7 @@ class DetallePerfilViewModel {
     var detalle: PerfilDetalle?
     var post: [Post] = []
     var perfilesRelacionados: [Perfil] = []
-    private let viewModel : SeguidoresSeguidosViewModel
+    let viewModel : SeguidoresSeguidosViewModel
     var isLoading = true
     
     private let apiService: ApiService

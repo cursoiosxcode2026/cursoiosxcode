@@ -14,30 +14,36 @@ struct VistaHome: View {
             id: 1,
             username: "Paloma",
             password: "1234",
-            image: "",
+            image: "https://dummyjson.com/icon/emilys/128",
             company: nil,
             titulo: "Tester"
         ),
         viewModel: SeguidoresSeguidosViewModel()
     )
     
+    @State private var path = NavigationPath()
+    
     var body: some View {
-        TabView {
-            
-          VistaFeed(viewModel: viewModel)
-                .tabItem {
-                    Label("Feed", systemImage: "house")
-                }
-            
-           Text("VistaBuscador()")
-                .tabItem {
-                    Label("Buscador", systemImage: "magnifyingglass")
-                }
-            
-            Text("VistaDetallePerfil()")
+        NavigationStack(path: $path) {
+            TabView {
+                
+                VistaFeed(viewModel: viewModel)
+                    .tabItem {
+                        Label("Feed", systemImage: "house")
+                    }
+                
+                VistaBuscador()
+                    .tabItem {
+                        Label("Buscador", systemImage: "magnifyingglass")
+                    }
+                
+                VistaDetallePerfil( perfil: viewModel.perfil,
+                                    path: $path,
+                                    rsViewModel: viewModel.viewModel)
                 .tabItem {
                     Label("Perfil", systemImage: "person")
                 }
+            }
         }
     }
 }

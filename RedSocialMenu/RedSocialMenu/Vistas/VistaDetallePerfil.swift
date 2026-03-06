@@ -33,9 +33,13 @@ struct VistaDetallePerfil: View {
                 .frame(height: 150)
                 .frame(maxWidth: .infinity, alignment: .center)
                 
+                Text(viewModel.perfil.username)
+                    .font(.title2.bold())
+                    .frame(maxWidth: .infinity, alignment: .center)
+                
+                
                 Text(viewModel.detalle?.titulo ?? viewModel.perfil.titulo ?? "Sin título")
                     .font(.title2.bold())
-                    .padding()
                     .frame(maxWidth: .infinity, alignment: .center)
                 
                 if viewModel.isLoading {
