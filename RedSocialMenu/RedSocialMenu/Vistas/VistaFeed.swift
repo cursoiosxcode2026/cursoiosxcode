@@ -48,6 +48,7 @@ struct VistaFeed: View {
                     }
                 }
             }
+            .padding()
             .task {
                 await viewModel.cargarDatosCompletos()
             }
