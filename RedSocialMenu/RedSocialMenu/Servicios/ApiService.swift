@@ -35,9 +35,9 @@ class ApiService {
             var perfiles = respuesta.users
             
             // Asignamos titulo desde company
-            for i in 0..<perfiles.count {
+          /*  for i in 0..<perfiles.count {
                 perfiles[i].titulo = perfiles[i].company?.title ?? "Sin título"
-            }
+            }*/
             
             return perfiles
         } catch {
@@ -64,8 +64,8 @@ class ApiService {
             id: perfil.id,
             username: perfil.username,
             password: perfil.password ?? "",
-            titulo: perfil.titulo,
             image: perfil.image,
+            company: perfil.company,
             email: "email@example.com",  // DummyJSON no tiene email completo
             phone: "+0000000",
             post: ["Primer Post", "Segundo Post", "Tercer Post"]
@@ -84,8 +84,8 @@ class ApiService {
                        username: perfil.username,
                        password: perfil.password,
                        image: perfil.image,
-                       company: nil,
-                       titulo: perfil.titulo,)
+                       company: nil)
+                     //  titulo: perfil.titulo,)
             )
         }
         return resultados

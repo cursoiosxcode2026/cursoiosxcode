@@ -12,6 +12,10 @@ struct VistaDetallePost: View {
     
     var body: some View {
         VStack(spacing: 20) {
+            
+            Text("\(post.air_date)")
+                .font(.headline)
+            
             AsyncImage(url: URL(string: post.image)) { image in
                 image
                     .resizable()
@@ -21,18 +25,17 @@ struct VistaDetallePost: View {
             }
             .frame(height: 200)
             
-            Text("Nombre: \(post.name)")
+            Text("\(post.name)")
                 .font(.title2.bold())
             
-            Text("Fecha: \(post.air_date)")
-                .font(.headline)
-            
             HStack {
-                
-                Text(Image(systemName: "heart"))
-                Text("\(post.likes)")
                 Text(Image(systemName: "heart.slash"))
                 Text("\(post.dislikes)")
+                Spacer()
+                Text(Image(systemName: "heart"))
+                Text("\(post.likes)")
+                
+                
                 
                 
             }

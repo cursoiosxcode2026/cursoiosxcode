@@ -16,7 +16,7 @@ struct VistaHome: View {
             password: "1234",
             image: "https://dummyjson.com/icon/emilys/128",
             company: nil,
-            titulo: "Tester"
+          //  titulo: "Tester"
         ),
         viewModel: SeguidoresSeguidosViewModel()
     )

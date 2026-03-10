@@ -14,21 +14,25 @@ struct Perfil: Codable, Identifiable, Hashable {
     let image: String
     let company: Company?
     
-    var titulo: String?
+    //var titulo: String?
     
-    
-    struct Company: Codable, Hashable {
-        let title: String
-    }
+}
+
+struct Company: Codable, Hashable {
+    let title: String
 }
 
 struct PerfilDetalle: Codable, Identifiable {
     let id: Int
     let username: String
     let password: String?
-    var titulo: String?
+   //  var titulo: String?
     let image: String
     
+    let company: Company?
+    
+    //var titulo: String?
+
     let email: String
     let phone: String
     var post: [String] = []  // posts simulados

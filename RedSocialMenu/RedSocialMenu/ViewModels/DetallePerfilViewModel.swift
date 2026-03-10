@@ -15,7 +15,9 @@ class DetallePerfilViewModel {
     var perfilesRelacionados: [Perfil] = []
     let viewModel : SeguidoresSeguidosViewModel
     var isLoading = true
-    
+    var titulo: String {
+        detalle?.company?.title ?? perfil.company?.title ?? "Sin título"
+    }
     private let apiService: ApiService
     
     init(perfil: Perfil, viewModel: SeguidoresSeguidosViewModel, apiService: ApiService = ApiService.instancia) {

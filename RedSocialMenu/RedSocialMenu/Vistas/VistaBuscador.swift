@@ -8,10 +8,58 @@
 import SwiftUI
 
 struct VistaBuscador: View {
+    
+    @State private var textoBuscado: String = ""
+    @State private var posts: [Post] = []
+    
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+            ScrollView {
+                VStack {
+                TextField("Introduce lo que buscas", text: $textoBuscado)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .padding()
+            
+                // Filtramos posts
+                ForEach(posts.filter { post in
+                    textoBuscado.isEmpty ||
+                    post.name.lowercased().contains(textoBuscado.lowercased())
+                }) { post in
+                    HStack(){
+                        NavigationLink {
+                            VistaDetallePost(post: post)
+                        } label: {
+                            AsyncImage(url: URL(string: post.image)) { image in
+                                image
+                                    .resizable()
+                                    .scaledToFill()
+                            } placeholder: {
+                                Color.gray.opacity(0.3)
+                            }
+                            .frame(width: 50, height: 50)
+                            .clipShape(Rectangle())
+                        }
+                        Text(post.name)
+                        Spacer()
+                    }
+                }
+            }
+            .searchable(text: $textoBuscado, prompt: "Buscar perfiles o posts")
+            .navigationTitle("Buscador")
+           .task {
+                           do {
+                            //   perfiles = try await ApiService.instancia.obtenerPerfiles()
+                               posts = try await ApiService.instancia.obtenerPostsAleatorios(cantidad: 30)
+                           } catch {
+                               print("Error cargando datos: \(error)")
+                           }
+                       }
+                
+           .padding()
+        }
     }
 }
+
 
 #Preview {
     VistaBuscador()

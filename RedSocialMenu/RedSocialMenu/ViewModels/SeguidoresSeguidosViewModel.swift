@@ -48,6 +48,7 @@ class SeguidoresSeguidosViewModel {
             await MainActor.run {
                 self.perfiles = perfiles
                 self.errorMessage = nil
+                print("en seguidores view model")
             }
         } catch {
             await MainActor.run { errorMessage = "No se pudieron cargar los perfiles" }

@@ -9,20 +9,12 @@ import SwiftUI
 
 struct VistaFeed: View {
     @State private var viewModel: DetallePerfilViewModel
-   /* let perfil = Perfil(
-        id: 1,
-        username: "Paloma",
-        password: "1234",
-        image: "https://via.placeholder.com/150",
-        company: nil,
-        titulo: "Tester"
-    )
-    */
+    
     init(viewModel: DetallePerfilViewModel) {
         _viewModel = State(initialValue: viewModel)
     }
     var body: some View {
-            
+        ScrollView {
             VStack {
                 
                 Text("Feed de \(viewModel.perfil.username)")
@@ -42,13 +34,14 @@ struct VistaFeed: View {
                             .frame(width: 50, height: 50)
                             .clipShape(Rectangle())
                         }
-                       Text(post.name)
+                        Text(post.name)
                         Spacer()
                         Text(post.air_date).font(.caption).foregroundStyle(.secondary)
                     }
                 }
             }
             .padding()
+        }
             .task {
                 await viewModel.cargarDatosCompletos()
             }
@@ -59,11 +52,11 @@ struct VistaFeed: View {
         
         let perfil = Perfil(
             id: 1,
-            username: "Paloma",
-            password: "1234",
-            image: "",
+            username: "emilys",
+            password: "emilyspass",
+            image: "https://dummyjson.com/icon/emilys/128",
             company: nil,
-            titulo: "Tester"
+            //titulo: "Tester"
         )
         
         let seguidoresVM = SeguidoresSeguidosViewModel()

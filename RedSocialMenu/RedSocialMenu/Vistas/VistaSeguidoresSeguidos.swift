@@ -26,8 +26,9 @@ struct VistaSeguidoresSeguidos: View {
                         Task { await viewModel.cargarDatos() }
                     }
                 } else {
-                    List(viewModel.perfiles) { perfil in
-                        NavigationLink(value: perfil) {
+                   List(viewModel.perfiles) { perfil in
+                      // NavigationLink(value: perfil) {
+                       NavigationLink(destination: VistaDetallePerfil(perfil: perfil, path: $path, rsViewModel: viewModel)) {
                             HStack {
                                 AsyncImage(url: URL(string: perfil.image)) { img in
                                     img.resizable().scaledToFit()
@@ -40,7 +41,8 @@ struct VistaSeguidoresSeguidos: View {
                                 VStack(alignment: .leading) {
                                     Text(perfil.username)
                                         .font(.headline)
-                                    Text(perfil.titulo ?? "Sin título")
+                                  //  Text(perfil.titulo ?? "Sin título")
+                                    Text(perfil.company?.title ?? "Sin título")
                                         .font(.caption)
                                         .foregroundStyle(.secondary)
                                 }

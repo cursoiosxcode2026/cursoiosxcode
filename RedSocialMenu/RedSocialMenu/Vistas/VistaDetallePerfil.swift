@@ -38,7 +38,7 @@ struct VistaDetallePerfil: View {
                     .frame(maxWidth: .infinity, alignment: .center)
                 
                 
-                Text(viewModel.detalle?.titulo ?? viewModel.perfil.titulo ?? "Sin título")
+                Text(viewModel.titulo)
                     .font(.title2.bold())
                     .frame(maxWidth: .infinity, alignment: .center)
                 
@@ -78,7 +78,8 @@ struct VistaDetallePerfil: View {
                             ScrollView(.horizontal, showsIndicators: false) {
                                 HStack {
                                     ForEach(viewModel.perfilesRelacionados) { perfil in
-                                        NavigationLink(value: perfil) {
+                                    //  NavigationLink(value: perfil) {
+                                    NavigationLink(destination: VistaDetallePerfil(perfil: perfil, path: $path, rsViewModel: rsViewModel)) {
                                             VStack {
                                                 AsyncImage(url: URL(string: perfil.image)) { img in
                                                     img.resizable().scaledToFill()
@@ -118,15 +119,17 @@ struct VistaDetallePerfil: View {
 #Preview {
     @State var path = NavigationPath()
     let rsViewModel = SeguidoresSeguidosViewModel()
+
+ //    let idPerfil = Int.random(in: 1...30)
+  
     let perfil = Perfil(
         id: 1,
-        username: "Paloma",
-        password: "1234",
-        image: "https://via.placeholder.com/150",
+        username: "emilys",
+        password: "emilyspass",
+        image: "https://dummyjson.com/icon/emilys/128",
         company: nil,
-        titulo: "Tester"
+     //   titulo: "Tester"
     )
-    
     
     VistaDetallePerfil(perfil: perfil, path: $path, rsViewModel: rsViewModel)
 
