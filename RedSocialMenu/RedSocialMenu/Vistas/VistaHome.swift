@@ -37,6 +37,13 @@ struct VistaHome: View {
                         Label("Buscador", systemImage: "magnifyingglass")
                     }
                 
+                
+                //TO DO
+                VistaMensaje()
+                    .tabItem {
+                        Label("Mensajes", systemImage: "message")
+                    }
+                
                 VistaDetallePerfil( perfil: viewModel.perfil,
                                     path: $path,
                                     rsViewModel: viewModel.viewModel)
