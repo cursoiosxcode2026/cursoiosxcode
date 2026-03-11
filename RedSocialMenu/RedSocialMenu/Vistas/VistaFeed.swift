@@ -19,10 +19,10 @@ struct VistaFeed: View {
                 
                 Text("Feed de \(viewModel.perfil.username)")
                 
-                ForEach(viewModel.post) { post in
+                ForEach($viewModel.post) { $post in
                     HStack(){
                         NavigationLink {
-                            VistaDetallePost(post: post)
+                            VistaDetallePost(post: $post)
                         } label: {
                             AsyncImage(url: URL(string: post.image)) { image in
                                 image

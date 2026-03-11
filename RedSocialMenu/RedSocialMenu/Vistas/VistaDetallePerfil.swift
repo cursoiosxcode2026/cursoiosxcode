@@ -22,6 +22,9 @@ struct VistaDetallePerfil: View {
         
     }
     
+    
+ 
+    
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
@@ -48,48 +51,53 @@ struct VistaDetallePerfil: View {
                     VStack(alignment: .leading) {
                         Text("Posts: \(viewModel.post.count)")
                             .font(.headline)
-                        ForEach(viewModel.post) { post in
+                        
+                        
+                        
+                        
+                        ForEach(viewModel.post.indices, id: \.self) { index in
+                            let postBinding = $viewModel.post[index]
+                            let post = viewModel.post[index] // solo para filtrar o mostrar datos si quieres
+                            
                             HStack {
                                 NavigationLink {
-                                    VistaDetallePost(post: post)
+                                    VistaDetallePost(post: postBinding) // pasamos binding
                                 } label: {
                                     AsyncImage(url: URL(string: post.image)) { image in
-                                        image
-                                            .resizable()
-                                            .scaledToFill()
+                                        image.resizable().scaledToFill()
                                     } placeholder: {
                                         Color.gray.opacity(0.3)
                                     }
                                     .frame(width: 40, height: 40)
                                     .clipShape(Rectangle())
+                                    
+                                    Text(post.name)
+                                    Spacer()
+                                    Text(post.air_date).font(.caption).foregroundStyle(.secondary)
                                 }
-                                Text(post.name)
-                                Spacer()
-                                Text(post.air_date).font(.caption).foregroundStyle(.secondary)
                             }
                         }
-                    }
-                    
-                    if !viewModel.perfilesRelacionados.isEmpty {
-                        VStack(alignment: .leading) {
-                            Text("Perfiles relacionados")
-                                .font(.title2.bold())
-                                .padding(.vertical)
-                            ScrollView(.horizontal, showsIndicators: false) {
-                                HStack {
-                                    ForEach(viewModel.perfilesRelacionados) { perfil in
-                                    //  NavigationLink(value: perfil) {
-                                    NavigationLink(destination: VistaDetallePerfil(perfil: perfil, path: $path, rsViewModel: rsViewModel)) {
-                                            VStack {
-                                                AsyncImage(url: URL(string: perfil.image)) { img in
-                                                    img.resizable().scaledToFill()
-                                                } placeholder: {
-                                                    Color.gray.opacity(0.3)
+                        if !viewModel.perfilesRelacionados.isEmpty {
+                            VStack(alignment: .leading) {
+                                Text("Perfiles relacionados")
+                                    .font(.title2.bold())
+                                    .padding(.vertical)
+                                ScrollView(.horizontal, showsIndicators: false) {
+                                    HStack {
+                                        ForEach(viewModel.perfilesRelacionados) { perfil in
+                                            //  NavigationLink(value: perfil) {
+                                            NavigationLink(destination: VistaDetallePerfil(perfil: perfil, path: $path, rsViewModel: rsViewModel)) {
+                                                VStack {
+                                                    AsyncImage(url: URL(string: perfil.image)) { img in
+                                                        img.resizable().scaledToFill()
+                                                    } placeholder: {
+                                                        Color.gray.opacity(0.3)
+                                                    }
+                                                    .frame(width: 80, height: 80)
+                                                    .clipShape(Circle())
+                                                    Text(perfil.username)
+                                                        .font(.caption)
                                                 }
-                                                .frame(width: 80, height: 80)
-                                                .clipShape(Circle())
-                                                Text(perfil.username)
-                                                    .font(.caption)
                                             }
                                         }
                                     }
@@ -103,10 +111,10 @@ struct VistaDetallePerfil: View {
         }
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                Button {
-                    path = NavigationPath()
+                    NavigationLink {
+                               VistaFeed(viewModel: viewModel)
                 } label: {
-                    Image(systemName: "arrowshape.backward")
+                    Image(systemName: "photo.fill")
                 }
             }
         }

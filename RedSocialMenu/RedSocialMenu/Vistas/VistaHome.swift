@@ -12,8 +12,8 @@ struct VistaHome: View {
     @State private var viewModel = DetallePerfilViewModel(
         perfil: Perfil(
             id: 1,
-            username: "Paloma",
-            password: "1234",
+            username: "emilys",
+            password: "emilyspass",
             image: "https://dummyjson.com/icon/emilys/128",
             company: nil,
           //  titulo: "Tester"
