@@ -59,12 +59,12 @@ struct VistaFeed: View {
             //titulo: "Tester"
         )
         
-        let seguidoresVM = SeguidoresSeguidosViewModel()
+       // let seguidoresVM = SeguidoresSeguidosViewModel()
         
         VistaFeed(
             viewModel: DetallePerfilViewModel(
-                perfil: perfil,
-                viewModel: seguidoresVM
+                perfil: perfil/*,
+                viewModel: seguidoresVM*/
             )
         )
     }

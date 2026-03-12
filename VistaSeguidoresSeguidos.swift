@@ -28,7 +28,7 @@ struct VistaSeguidoresSeguidos: View {
                 } else {
                    List(viewModel.perfiles) { perfil in
                       // NavigationLink(value: perfil) {
-                       NavigationLink(destination: VistaDetallePerfil(perfil: perfil, path: $path, rsViewModel: viewModel)) {
+                       NavigationLink(destination: VistaDetallePerfil(perfil: perfil, path: $path/*, rsViewModel: viewModel*/)) {
                             HStack {
                                 AsyncImage(url: URL(string: perfil.image)) { img in
                                     img.resizable().scaledToFit()
@@ -58,8 +58,8 @@ struct VistaSeguidoresSeguidos: View {
             .navigationDestination(for: Perfil.self) { perfil in
                 VistaDetallePerfil(
                     perfil: perfil,
-                    path: $path,
-                    rsViewModel: viewModel
+                    path: $path/*,
+                    rsViewModel: viewModel */
                 )
             }
             .task {

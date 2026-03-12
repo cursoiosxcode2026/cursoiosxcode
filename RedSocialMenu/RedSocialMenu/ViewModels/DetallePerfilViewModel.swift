@@ -13,16 +13,17 @@ class DetallePerfilViewModel {
     var detalle: PerfilDetalle?
     var post: [Post] = []
     var perfilesRelacionados: [Perfil] = []
-    let viewModel : SeguidoresSeguidosViewModel
+ //   let viewModel : SeguidoresSeguidosViewModel
     var isLoading = true
     var titulo: String {
         detalle?.company?.title ?? perfil.company?.title ?? "Sin título"
     }
     private let apiService: ApiService
+    var postsPorPerfil: [Int: [Post]] = [:]
     
-    init(perfil: Perfil, viewModel: SeguidoresSeguidosViewModel, apiService: ApiService = ApiService.instancia) {
+    init(perfil: Perfil/*, viewModel: SeguidoresSeguidosViewModel*/, apiService: ApiService = ApiService.instancia) {
         self.perfil = perfil
-        self.viewModel = viewModel
+      //  self.viewModel = viewModel
         self.apiService = apiService
         
     }
@@ -31,14 +32,7 @@ class DetallePerfilViewModel {
         do {
             let detalle = try await apiService.obtenerDetallePerfil(id: perfil.id)
             
-            // Simulamos posts
-           /* self.post = detalle.post.enumerated().map {
-                Post(id: $0.offset, name: $0.element, air_date: "2026-02-13")
-            }
-            let cantidadAleatoria = Int.random(in: 1...30)
-            self.post = try await apiService.obtenerPostsAleatorios(cantidad: cantidadAleatoria )
-            */
-            self.post = try await viewModel.cargarPostsParaPerfil(perfil)
+            self.post = try await cargarPostsParaPerfil(perfil)
             
             self.detalle = detalle
             
@@ -52,6 +46,33 @@ class DetallePerfilViewModel {
             print("Error cargando detalle: \(error)")
             await MainActor.run { self.isLoading = false }
         }
+    }
+    
+    func cargarPostsParaPerfil(_ perfil: Perfil) async throws -> [Post] {
+        if let postsGuardados = postsPorPerfil[perfil.id] {
+            return postsGuardados.sorted {
+                convertirFecha($0.air_date) > convertirFecha($1.air_date) // más recientes primero
+            }
+        } else {
+            let posts = try await apiService.obtenerPostsAleatorios(cantidad: Int.random(in: 1...30))
+            postsPorPerfil[perfil.id] = posts
+            return posts.sorted {
+                convertirFecha($0.air_date) > convertirFecha($1.air_date)
+            }
+        }
+    }
+    
+    
+    
+    
+    
+    // Convierte "13 Feb 2026" a Date
+    private func convertirFecha(_ fechaString: String) -> Date {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "es_ES") // meses en español
+        formatter.dateFormat = "dd MMM yyyy"          // ejemplo: "13 Feb 2026"
+        
+        return formatter.date(from: fechaString) ?? Date.distantPast
     }
 }
 

@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct VistaHome: View {
+    @State private var path = NavigationPath()
     
     @State private var viewModel = DetallePerfilViewModel(
         perfil: Perfil(
@@ -17,11 +18,15 @@ struct VistaHome: View {
             image: "https://dummyjson.com/icon/emilys/128",
             company: nil,
           //  titulo: "Tester"
-        ),
-        viewModel: SeguidoresSeguidosViewModel()
+        )
+        /*,
+        viewModel: SeguidoresSeguidosViewModel() */
     )
     
-    @State private var path = NavigationPath()
+   // @State private var mensajes = MensajeViewModel(idUsuario: viewModel.perfil.id)
+    
+
+    
     
     var body: some View {
         NavigationStack(path: $path) {
@@ -39,14 +44,14 @@ struct VistaHome: View {
                 
                 
                 //TO DO
-                VistaMensaje()
+                VistaMensaje(viewModel: mensajes)
                     .tabItem {
                         Label("Mensajes", systemImage: "message")
                     }
                 
                 VistaDetallePerfil( perfil: viewModel.perfil,
-                                    path: $path,
-                                    rsViewModel: viewModel.viewModel)
+                                    path: $path/*,
+                                    rsViewModel: viewModel.viewModel*/)
                 .tabItem {
                     Label("Perfil", systemImage: "person")
                 }

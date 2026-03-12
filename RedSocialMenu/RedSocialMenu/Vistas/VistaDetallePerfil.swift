@@ -11,14 +11,13 @@ struct VistaDetallePerfil: View {
     
     @Binding var path: NavigationPath
     @State private var viewModel: DetallePerfilViewModel
-    private var rsViewModel: SeguidoresSeguidosViewModel
+   // private var rsViewModel: SeguidoresSeguidosViewModel
     
-    init(perfil: Perfil, path: Binding<NavigationPath>, rsViewModel: SeguidoresSeguidosViewModel) {
+    init(perfil: Perfil, path: Binding<NavigationPath>, /*rsViewModel: SeguidoresSeguidosViewModel*/) {
         self._path = path
-        self.rsViewModel = rsViewModel
-      //self._viewModel = State(initialValue: DetallePerfilViewModel(perfil: perfil))
+       // self.rsViewModel = rsViewModel
         
-        self._viewModel = State(wrappedValue: DetallePerfilViewModel(perfil: perfil, viewModel: rsViewModel))
+        self._viewModel = State(wrappedValue: DetallePerfilViewModel(perfil: perfil /*, viewModel: rsViewModel*/))
         
     }
     
@@ -86,7 +85,7 @@ struct VistaDetallePerfil: View {
                                     HStack {
                                         ForEach(viewModel.perfilesRelacionados) { perfil in
                                             //  NavigationLink(value: perfil) {
-                                            NavigationLink(destination: VistaDetallePerfil(perfil: perfil, path: $path, rsViewModel: rsViewModel)) {
+                                            NavigationLink(destination: VistaDetallePerfil(perfil: perfil, path: $path/*, rsViewModel: rsViewModel*/)) {
                                                 VStack {
                                                     AsyncImage(url: URL(string: perfil.image)) { img in
                                                         img.resizable().scaledToFill()
@@ -126,7 +125,7 @@ struct VistaDetallePerfil: View {
 
 #Preview {
     @State var path = NavigationPath()
-    let rsViewModel = SeguidoresSeguidosViewModel()
+   // let rsViewModel = SeguidoresSeguidosViewModel()
 
  //    let idPerfil = Int.random(in: 1...30)
   
@@ -139,6 +138,6 @@ struct VistaDetallePerfil: View {
      //   titulo: "Tester"
     )
     
-    VistaDetallePerfil(perfil: perfil, path: $path, rsViewModel: rsViewModel)
+    VistaDetallePerfil(perfil: perfil, path: $path /*, rsViewModel: rsViewModel*/)
 
 }

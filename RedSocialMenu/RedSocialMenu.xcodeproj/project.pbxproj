@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		B9D0D0052F62D7CE00C22FBE /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = B9D0D0042F62D7CE00C22FBE /* FirebaseAuth */; };
+		B9D0D0072F62D7CE00C22FBE /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = B9D0D0062F62D7CE00C22FBE /* FirebaseFirestore */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		B96037B52F3C979500450091 /* RedSocialMenu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RedSocialMenu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -23,6 +28,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B9D0D0052F62D7CE00C22FBE /* FirebaseAuth in Frameworks */,
+				B9D0D0072F62D7CE00C22FBE /* FirebaseFirestore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +72,8 @@
 			);
 			name = RedSocialMenu;
 			packageProductDependencies = (
+				B9D0D0042F62D7CE00C22FBE /* FirebaseAuth */,
+				B9D0D0062F62D7CE00C22FBE /* FirebaseFirestore */,
 			);
 			productName = "Curso-iOS-Rick-And-Morty";
 			productReference = B96037B52F3C979500450091 /* RedSocialMenu.app */;
@@ -94,6 +103,9 @@
 			);
 			mainGroup = B96037AC2F3C979500450091;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				B9D0D0032F62D7CE00C22FBE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = B96037B62F3C979500450091 /* Products */;
 			projectDirPath = "";
@@ -330,6 +342,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		B9D0D0032F62D7CE00C22FBE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.10.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		B9D0D0042F62D7CE00C22FBE /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B9D0D0032F62D7CE00C22FBE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		B9D0D0062F62D7CE00C22FBE /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B9D0D0032F62D7CE00C22FBE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = B96037AD2F3C979500450091 /* Project object */;
 }
