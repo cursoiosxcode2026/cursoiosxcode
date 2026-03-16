@@ -1,11 +1,13 @@
 //
 //  VistaHome.swift
-//  RedSocialMenu
+//  RedSocialApp
 //
-//  Created by Equipo 7 on 19/2/26.
+//  Created by Equipo 7 on 16/3/26.
 //
 
 import SwiftUI
+
+
 
 struct VistaHome: View {
     @State private var path = NavigationPath()
@@ -24,6 +26,9 @@ struct VistaHome: View {
     )
     
    // @State private var mensajes = MensajeViewModel(idUsuario: viewModel.perfil.id)
+    
+    @State private var mensajes = MensajeViewModel(idUsuario: 1)
+
     
 
     
@@ -44,7 +49,7 @@ struct VistaHome: View {
                 
                 
                 //TO DO
-                VistaMensaje(viewModel: MensajeViewModel)
+                VistaMensaje(viewModel: mensajes)
                     .tabItem {
                         Label("Mensajes", systemImage: "message")
                     }
@@ -63,3 +68,4 @@ struct VistaHome: View {
 #Preview {
     VistaHome()
 }
+
