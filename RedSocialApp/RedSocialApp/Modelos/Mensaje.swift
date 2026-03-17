@@ -14,10 +14,22 @@ struct Mensaje: Identifiable, Codable {
     
     var texto: String
     var fecha: Date
-    var idUsuario: Int
+    //var idUsuario: Int
+    var idRemitente: Int
+    var idReceptor: Int
+    var participantes : [Int]
     
     
     enum CodingKeys: String, CodingKey {
-        case id, texto,fecha, idUsuario
+        case id, texto,fecha, idRemitente, idReceptor, participantes /*, idUsuario*/
+    }
+    
+    // Inicializador personalizado para crear automáticamente "participantes"
+    init(texto: String, fecha: Date, idRemitente: Int, idReceptor: Int) {
+        self.texto = texto
+        self.fecha = fecha
+        self.idRemitente = idRemitente
+        self.idReceptor = idReceptor
+        self.participantes = [idRemitente, idReceptor]
     }
 }

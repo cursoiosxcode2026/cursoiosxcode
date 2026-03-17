@@ -17,19 +17,21 @@ enum ConstantesFirestore {
 @Observable
 class MensajeViewModel {
     var mensajes: [Mensaje] = []
+    var perfiles: [Perfil] = [] // perfiles traídos de tu API
    
     private var db = Firestore.firestore()
-    var idUsuario: Int
+    var idRemitente: Int
     
-    init(idUsuario: Int) {
-        self.idUsuario = idUsuario
+    init(idRemitente: Int) {
+        self.idRemitente = idRemitente
         cargarMensajes()
     }
     
     func cargarMensajes() {
         // Consulta a "mensajes" en Firestore, usando el idUsuario
         db.collection(ConstantesFirestore.coleccionMensajes)
-            .whereField(Mensaje.CodingKeys.idUsuario.rawValue, isEqualTo: idUsuario)
+            //.whereField(Mensaje.CodingKeys.idUsuario.rawValue, isEqualTo: idUsuario)
+            .whereField("participantes", arrayContains: idRemitente)
             .order(by: Mensaje.CodingKeys.fecha.rawValue, descending: true)
             .addSnapshotListener { snapshot, error in
                 guard let documents = snapshot?.documents else {
@@ -44,14 +46,18 @@ class MensajeViewModel {
             }
     }
     
-    func anadirMensaje(texto: String,  idUsuario: Int, fecha: Date) {
-        let nuevoMensaje = Mensaje(id: nil, texto: texto,
+    func anadirMensaje(texto: String, idRemitente: Int, idReceptor: Int, fecha: Date) {
+        let nuevoMensaje = Mensaje(
+                               texto: texto,
                                fecha: fecha,
-                               idUsuario: idUsuario
-                               
+                               idRemitente: idRemitente,
+                               idReceptor: idReceptor,
                             )
+        
+       // self.mensajes.insert(nuevoMensaje, at: 0)
         do {
             _ = try db.collection(ConstantesFirestore.coleccionMensajes).addDocument(from: nuevoMensaje)
+         //   cargarMensajes()
         } catch {
             print("Error guardando: \(error)")
         }
@@ -88,6 +94,9 @@ class MensajeViewModel {
         mensajes.first { $0.id == id }
     }
     
+    func perfilUsuario(id: Int) -> Perfil? {
+        return perfiles.first(where: { $0.id == id })
+    }
 
    
 }

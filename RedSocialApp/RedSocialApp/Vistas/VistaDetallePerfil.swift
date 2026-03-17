@@ -10,15 +10,15 @@ import Observation
 
 struct VistaDetallePerfil: View {
     
-    @Binding var path: NavigationPath
+   // @Binding var path: NavigationPath
     @State private var viewModel: DetallePerfilViewModel
    // private var rsViewModel: SeguidoresSeguidosViewModel
     
-    init(perfil: Perfil, path: Binding<NavigationPath>, /*rsViewModel: SeguidoresSeguidosViewModel*/) {
-        self._path = path
-       // self.rsViewModel = rsViewModel
+    init(perfil: Perfil/*, path: Binding<NavigationPath>*/) {
+       // self._path = path
+      
         
-        self._viewModel = State(wrappedValue: DetallePerfilViewModel(perfil: perfil /*, viewModel: rsViewModel*/))
+        self._viewModel = State(wrappedValue: DetallePerfilViewModel(perfil: perfil))
         
     }
     
@@ -86,7 +86,7 @@ struct VistaDetallePerfil: View {
                                     HStack {
                                         ForEach(viewModel.perfilesRelacionados) { perfil in
                                             //  NavigationLink(value: perfil) {
-                                            NavigationLink(destination: VistaDetallePerfil(perfil: perfil, path: $path/*, rsViewModel: rsViewModel*/)) {
+                                            NavigationLink(destination: VistaDetallePerfil(perfil: perfil/*, path: $path*/)) {
                                                 VStack {
                                                     AsyncImage(url: URL(string: perfil.image)) { img in
                                                         img.resizable().scaledToFill()
@@ -126,7 +126,7 @@ struct VistaDetallePerfil: View {
 
 struct VistaDetallePerfilPreview: View {
     
-    @State var path = NavigationPath()
+  //  @State var path = NavigationPath()
     
     var body: some View {
         
@@ -138,25 +138,12 @@ struct VistaDetallePerfilPreview: View {
             company: nil
         )
         
-        VistaDetallePerfil(perfil: perfil, path: $path)
+        VistaDetallePerfil(perfil: perfil/*, path: $path*/)
     }
 }
 
 #Preview {
-   /* @State var path = NavigationPath()
-   
-  
-    let perfil = Perfil(
-        id: 1,
-        username: "emilys",
-        password: "emilyspass",
-        image: "https://dummyjson.com/icon/emilys/128",
-        company: nil,
-     //   titulo: "Tester"
-    )
-    
-    VistaDetallePerfil(perfil: perfil, path: $path /*, rsViewModel: rsViewModel*/)
-*/
+
     VistaDetallePerfilPreview()
 }
 

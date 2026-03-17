@@ -15,9 +15,9 @@ struct VistaBuscador: View {
     var body: some View {
         ScrollView {
             VStack {
-                TextField("Introduce lo que buscas", text: $textoBuscado)
+               /* TextField("Introduce lo que buscas", text: $textoBuscado)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .padding()
+                    .padding()*/
                 
                 // Recorremos los índices del array
                 ForEach(posts.indices, id: \.self) { index in
@@ -47,7 +47,7 @@ struct VistaBuscador: View {
                     }
                 }
             }
-            .searchable(text: $textoBuscado, prompt: "Buscar perfiles o posts")
+            .searchable(text: $textoBuscado, prompt: "Buscar posts")
             .navigationTitle("Buscador")
             .task {
                 do {

@@ -10,7 +10,7 @@ import SwiftUI
 
 
 struct VistaHome: View {
-    @State private var path = NavigationPath()
+ //   @State private var path = NavigationPath()
     
     @State private var viewModel = DetallePerfilViewModel(
         perfil: Perfil(
@@ -27,43 +27,48 @@ struct VistaHome: View {
     
    // @State private var mensajes = MensajeViewModel(idUsuario: viewModel.perfil.id)
     
-    @State private var mensajes = MensajeViewModel(idUsuario: 1)
+    @State private var mensajes = MensajeViewModel(idRemitente: 1)
 
     
 
     
     
     var body: some View {
-        NavigationStack(path: $path) {
+      //  NavigationStack(path: $path) {
             TabView {
-                
-                VistaFeed(viewModel: viewModel)
+                NavigationStack {
+                    VistaFeed(viewModel: viewModel)
+                }
                     .tabItem {
                         Label("Feed", systemImage: "house")
                     }
-                
-                VistaBuscador()
+                NavigationStack {
+                    VistaBuscador()
+                }
                     .tabItem {
                         Label("Buscador", systemImage: "magnifyingglass")
                     }
                 
                 
                 //TO DO
-                VistaMensaje(viewModel: mensajes)
+                NavigationStack {
+                    VistaMensaje(viewModel: mensajes)
+                }
                     .tabItem {
                         Label("Mensajes", systemImage: "message")
                     }
                 
-                VistaDetallePerfil( perfil: viewModel.perfil,
-                                    path: $path/*,
-                                    rsViewModel: viewModel.viewModel*/)
+                NavigationStack {
+                    VistaDetallePerfil( perfil: viewModel.perfil/*,
+                                                                 path: $path,*/
+                    )
+                }
                 .tabItem {
                     Label("Perfil", systemImage: "person")
                 }
             }
         }
     }
-}
 
 #Preview {
     VistaHome()

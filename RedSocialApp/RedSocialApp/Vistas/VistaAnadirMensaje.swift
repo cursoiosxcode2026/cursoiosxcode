@@ -13,14 +13,19 @@ struct VistaAnadirMensaje: View {
     var mensajeEditable: Mensaje? = nil
     
     @State private var texto: String = ""
-    @State private var idUsuario: Int
+    let idRemitente: Int
+    @State private var idReceptor: Int
     
     init(viewModel: MensajeViewModel, mensajeEditable: Mensaje? = nil) {
         self.viewModel = viewModel
         self.mensajeEditable = mensajeEditable
         // Inicializamos el texto si estamos editando
         _texto = State(initialValue: mensajeEditable?.texto ?? "")
-        _idUsuario = State(initialValue: mensajeEditable?.idUsuario ?? viewModel.idUsuario)
+        idRemitente = viewModel.idRemitente
+        _idReceptor = State(initialValue: mensajeEditable?.idReceptor ?? 1)
+        if _idReceptor.wrappedValue == viewModel.idRemitente {
+            _idReceptor = State(initialValue: 2) // primer usuario distinto
+        }
     }
     
     var body: some View {
@@ -30,15 +35,17 @@ struct VistaAnadirMensaje: View {
                     TextField("Escribe tu mensaje...", text: $texto)
                 }
                 
-                Section("Usuario") {
-                    Picker("Selecciona usuario", selection: $idUsuario) {
-                        ForEach(1...30, id: \.self) { id in
-                            if id != viewModel.idUsuario { // excluye tu propio ID
-                                Text("Usuario \(id)").tag(id)
+                if mensajeEditable == nil {
+                    Section("Usuario") {
+                        Picker("Selecciona usuario", selection: $idReceptor) {
+                            ForEach(1...30, id: \.self) { id in
+                                if id != viewModel.idRemitente {
+                                    Text("Usuario \(id)").tag(id)
+                                }
                             }
                         }
+                        .pickerStyle(.menu)
                     }
-                    .pickerStyle(.menu)
                 }
             }
             .navigationTitle(mensajeEditable == nil ? "Nuevo Mensaje" : "Editar Mensaje")
@@ -63,18 +70,23 @@ struct VistaAnadirMensaje: View {
         if let mensaje = mensajeEditable {
             var actualizado = mensaje
             actualizado.texto = texto
-            actualizado.idUsuario = idUsuario
+         //   actualizado.idUsuario = idUsuario
             viewModel.actualizarMensajes(actualizado)
         } else {
-            viewModel.anadirMensaje(texto: texto, idUsuario: idUsuario, fecha: Date())
+            viewModel.anadirMensaje(texto: texto, idRemitente: idRemitente, idReceptor: idReceptor, fecha: Date())
         }
     }
 }
 
 #Preview {
-    VistaAnadirMensaje(
+   /* VistaAnadirMensaje(
         viewModel: MensajeViewModel(idUsuario: 1),
-        mensajeEditable: Mensaje(id: "1", texto: "Hola mundo", fecha: Date(), idUsuario: 1)
+        mensajeEditable: Mensaje(texto: "Hola mundo", fecha: Date(), idRemitente: 1, idReceptor: 9)
+    ) */
+    
+    VistaAnadirMensaje(
+        viewModel: MensajeViewModel(idRemitente: 1),
+        mensajeEditable: nil /*,idReceptor: 2 */ // o el primer usuario disponible
     )
 }
 

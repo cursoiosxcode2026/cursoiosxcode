@@ -20,12 +20,29 @@ struct VistaMensaje: View {
             List {
                 // Usamos $viewModel.mensajes para bindings
                 ForEach($viewModel.mensajes) { $mensaje in
-                    VStack(alignment: .leading) {
-                        Text(mensaje.texto)
-                            .font(.headline)
-                        Text(mensaje.fecha, style: .date)
-                            .font(.caption)
-                            .foregroundStyle(.gray)
+                    HStack(alignment: .top, spacing: 12) {
+                        // Imagen del receptor solo si existe
+                        let perfil = viewModel.perfilUsuario(id: mensaje.idReceptor)
+                        AsyncImage(url: URL(string: perfil?.image ?? "")) { image in
+                                image
+                                    .resizable()
+                                    .scaledToFit()
+                            } placeholder: {
+                                Color.gray.opacity(0.3)
+                            }
+                            .frame(height: 40)
+                      //  Text(perfil?.image ?? "\(mensaje.idReceptor)")
+                        // Texto del mensaje y usuario
+                      //  VStack(alignment: .leading, spacing: 4) {
+                           /* Text(viewModel.perfilUsuario(id: mensaje.idReceptor)?.username
+                                 ?? "Usuario \(mensaje.idReceptor)")
+                                .font(.headline) */
+                            Text(mensaje.texto)
+                                .font(.body)
+                            Text(mensaje.fecha, style: .date)
+                                .font(.caption)
+                                .foregroundColor(.gray)
+                      //  }
                     }
                     .contentShape(Rectangle()) // toda la fila tocable
                     .onTapGesture {
@@ -60,6 +77,6 @@ struct VistaMensaje: View {
     
 
     VistaMensaje(
-        viewModel: MensajeViewModel(idUsuario: 1)
+        viewModel: MensajeViewModel(idRemitente: 1)
     )
 }
