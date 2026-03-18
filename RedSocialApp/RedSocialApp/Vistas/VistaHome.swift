@@ -50,7 +50,7 @@ struct VistaHome: View {
                     }
                 
                 
-                //TO DO
+                
                 NavigationStack {
                     VistaMensaje(viewModel: mensajes)
                 }
@@ -66,6 +66,15 @@ struct VistaHome: View {
                 .tabItem {
                     Label("Perfil", systemImage: "person")
                 }
+                
+                
+                //TO DO
+                NavigationStack {
+                    VistaUsuario()
+                }
+                    .tabItem {
+                        Label("Usuarios", systemImage: "person.3")
+                    }
             }
         }
     }

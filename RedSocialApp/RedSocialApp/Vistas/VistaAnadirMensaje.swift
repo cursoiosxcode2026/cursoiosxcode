@@ -32,6 +32,14 @@ struct VistaAnadirMensaje: View {
         NavigationStack {
             Form {
                 Section("Mensaje") {
+                    AsyncImage( url: URL(string: viewModel.perfilUsuario(id: idReceptor)?.image ?? "")) { image in
+                             image
+                                 .resizable()
+                                 .scaledToFit()
+                         } placeholder: {
+                             Color.gray.opacity(0.3)
+                         }
+                         .frame(height: 50)
                     TextField("Escribe tu mensaje...", text: $texto)
                 }
                 

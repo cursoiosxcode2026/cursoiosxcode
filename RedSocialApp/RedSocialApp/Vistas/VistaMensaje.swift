@@ -22,15 +22,14 @@ struct VistaMensaje: View {
                 ForEach($viewModel.mensajes) { $mensaje in
                     HStack(alignment: .top, spacing: 12) {
                         // Imagen del receptor solo si existe
-                        let perfil = viewModel.perfilUsuario(id: mensaje.idReceptor)
-                        AsyncImage(url: URL(string: perfil?.image ?? "")) { image in
+                       AsyncImage( url: URL(string: viewModel.perfilUsuario(id: mensaje.idReceptor)?.image ?? "")) { image in
                                 image
                                     .resizable()
                                     .scaledToFit()
                             } placeholder: {
                                 Color.gray.opacity(0.3)
                             }
-                            .frame(height: 40)
+                            .frame(height: 50)
                       //  Text(perfil?.image ?? "\(mensaje.idReceptor)")
                         // Texto del mensaje y usuario
                       //  VStack(alignment: .leading, spacing: 4) {

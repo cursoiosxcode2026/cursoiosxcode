@@ -21,10 +21,12 @@ class MensajeViewModel {
    
     private var db = Firestore.firestore()
     var idRemitente: Int
+
     
     init(idRemitente: Int) {
         self.idRemitente = idRemitente
         cargarMensajes()
+        cargarPerfiles()
     }
     
     func cargarMensajes() {
@@ -54,7 +56,7 @@ class MensajeViewModel {
                                idReceptor: idReceptor,
                             )
         
-       // self.mensajes.insert(nuevoMensaje, at: 0)
+        self.mensajes.insert(nuevoMensaje, at: 0)
         do {
             _ = try db.collection(ConstantesFirestore.coleccionMensajes).addDocument(from: nuevoMensaje)
          //   cargarMensajes()
@@ -83,6 +85,13 @@ class MensajeViewModel {
             try db.collection(ConstantesFirestore.coleccionMensajes)
             .document(idMensaje)
             .setData(from: mensaje, merge: true)
+            
+            // Actualizamos el mensaje en local
+            if let index = self.mensajes.firstIndex(where: { $0.id == idMensaje }) {
+                self.mensajes[index] = mensaje
+            } else {
+                print("⚠️ Mensaje con id \(idMensaje) no existe en local")
+            }
         } catch {
             print("Error al actualizar: \(error.localizedDescription)")
         }
@@ -96,6 +105,28 @@ class MensajeViewModel {
     
     func perfilUsuario(id: Int) -> Perfil? {
         return perfiles.first(where: { $0.id == id })
+    }
+    
+    
+    // Cargar perfiles desde API
+    func cargarPerfiles() {
+        // Evitamos recargar si ya hay datos
+        guard perfiles.isEmpty else { return }
+        
+        Task {
+            do {
+                // Llamada correcta usando el singleton
+                let perfilesAPI = try await ApiService.instancia.obtenerPerfiles()
+                
+                // Actualizamos en el hilo principal
+                await MainActor.run {
+                    self.perfiles = perfilesAPI
+                }
+                
+            } catch {
+                print("❌ Error cargando perfiles:", error)
+            }
+        }
     }
 
    
