@@ -10,20 +10,13 @@ import Observation
 
 struct VistaDetallePerfil: View {
     
-   // @Binding var path: NavigationPath
     @State private var viewModel: DetallePerfilViewModel
-   // private var rsViewModel: SeguidoresSeguidosViewModel
+    @Binding var usuarioVM: UsuarioViewModel // binding para poder cerrar sesión
     
-    init(perfil: Perfil/*, path: Binding<NavigationPath>*/) {
-       // self._path = path
-      
-        
+    init(perfil: Perfil, usuarioVM: Binding<UsuarioViewModel>) {
         self._viewModel = State(wrappedValue: DetallePerfilViewModel(perfil: perfil))
-        
+        self._usuarioVM = usuarioVM
     }
-    
-    
- 
     
     var body: some View {
         ScrollView {
@@ -36,10 +29,13 @@ struct VistaDetallePerfil: View {
                 .frame(height: 150)
                 .frame(maxWidth: .infinity, alignment: .center)
                 
-                Text(viewModel.perfil.username)
+                Text("\(viewModel.perfil.id)")
                     .font(.title2.bold())
                     .frame(maxWidth: .infinity, alignment: .center)
                 
+                Text(viewModel.perfil.username)
+                    .font(.title2.bold())
+                    .frame(maxWidth: .infinity, alignment: .center)
                 
                 Text(viewModel.titulo)
                     .font(.title2.bold())
@@ -52,16 +48,13 @@ struct VistaDetallePerfil: View {
                         Text("Posts: \(viewModel.post.count)")
                             .font(.headline)
                         
-                        
-                        
-                        
                         ForEach(viewModel.post.indices, id: \.self) { index in
                             let postBinding = $viewModel.post[index]
-                            let post = viewModel.post[index] // solo para filtrar o mostrar datos si quieres
+                            let post = viewModel.post[index]
                             
                             HStack {
                                 NavigationLink {
-                                    VistaDetallePost(post: postBinding) // pasamos binding
+                                    VistaDetallePost(post: postBinding)
                                 } label: {
                                     AsyncImage(url: URL(string: post.image)) { image in
                                         image.resizable().scaledToFill()
@@ -73,10 +66,13 @@ struct VistaDetallePerfil: View {
                                     
                                     Text(post.name)
                                     Spacer()
-                                    Text(post.air_date).font(.caption).foregroundStyle(.secondary)
+                                    Text(post.air_date)
+                                        .font(.caption)
+                                        .foregroundStyle(.secondary)
                                 }
                             }
                         }
+                        
                         if !viewModel.perfilesRelacionados.isEmpty {
                             VStack(alignment: .leading) {
                                 Text("Perfiles relacionados")
@@ -85,8 +81,7 @@ struct VistaDetallePerfil: View {
                                 ScrollView(.horizontal, showsIndicators: false) {
                                     HStack {
                                         ForEach(viewModel.perfilesRelacionados) { perfil in
-                                            //  NavigationLink(value: perfil) {
-                                            NavigationLink(destination: VistaDetallePerfil(perfil: perfil/*, path: $path*/)) {
+                                            NavigationLink(destination: VistaDetallePerfil(perfil: perfil, usuarioVM: $usuarioVM)) {
                                                 VStack {
                                                     AsyncImage(url: URL(string: perfil.image)) { img in
                                                         img.resizable().scaledToFill()
@@ -104,6 +99,21 @@ struct VistaDetallePerfil: View {
                                 }
                             }
                         }
+                        
+                        // ⚠️ Botón de Cerrar sesión
+                        Button(role: .destructive) {
+                            usuarioVM.usuarioActual = nil
+                        } label: {
+                            Text("Cerrar sesión")
+                                .bold()
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(Color.red.opacity(0.1))
+                                .foregroundColor(.red)
+                                .cornerRadius(10)
+                        }
+                        .padding(.top, 30)
+                        
                     }
                 }
             }
@@ -111,8 +121,8 @@ struct VistaDetallePerfil: View {
         }
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink {
-                               VistaFeed(viewModel: viewModel)
+                NavigationLink {
+                    VistaFeed(viewModel: viewModel)
                 } label: {
                     Image(systemName: "photo.fill")
                 }
@@ -124,7 +134,7 @@ struct VistaDetallePerfil: View {
     }
 }
 
-struct VistaDetallePerfilPreview: View {
+/*struct VistaDetallePerfilPreview: View {
     
   //  @State var path = NavigationPath()
     
@@ -138,12 +148,20 @@ struct VistaDetallePerfilPreview: View {
             company: nil
         )
         
-        VistaDetallePerfil(perfil: perfil/*, path: $path*/)
+        VistaDetallePerfil(perfil: perfil, /*, path: $path*/)
     }
-}
+} */
 
-#Preview {
-
-    VistaDetallePerfilPreview()
-}
+    #Preview {
+        let perfil = Perfil(
+            id: 1,
+            username: "emilys",
+            password: "emilyspass",
+            image: "https://dummyjson.com/icon/emilys/128",
+            company: nil
+        )
+        
+        // Para preview, creamos un UsuarioViewModel temporal
+        VistaDetallePerfil(perfil: perfil, usuarioVM: .constant(UsuarioViewModel()))
+    }
 

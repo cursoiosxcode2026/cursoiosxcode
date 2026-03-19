@@ -5,32 +5,32 @@
 //  Created by Equipo 7 on 18/3/26.
 //
 
-import Foundation
 import SwiftUI
 
 struct VistaUsuario: View {
-    @State private var viewModel = UsuarioViewModel()
-    @State private var path = NavigationPath()
+    @Bindable var usuarioVM: UsuarioViewModel // permite modificar usuarioActual
 
     var body: some View {
-        NavigationStack(path: $path){
+        NavigationStack {
             VStack {
-                if viewModel.isLoading {
+                if usuarioVM.isLoading {
                     ProgressView("Cargando...")
                         .controlSize(.large)
-                } else if let errorMessage = viewModel.errorMessage {
+                } else if let errorMessage = usuarioVM.errorMessage {
                     ContentUnavailableView(
                         "Error",
                         systemImage: "exclamationmark.triangle",
                         description: Text(errorMessage)
                     )
                     Button("Reintentar") {
-                        Task { await viewModel.cargarDatos() }
+                        Task { await usuarioVM.cargarPerfiles() }
                     }
                 } else {
-                   List(viewModel.perfiles) { perfil in
-                      // NavigationLink(value: perfil) {
-                       NavigationLink(destination: VistaDetallePerfil(perfil: perfil/*, path: $path/*, rsViewModel: viewModel*/ */)) {
+                    List(usuarioVM.perfiles) { perfil in
+                        Button {
+                            // Asignamos usuario seleccionado
+                            usuarioVM.usuarioActual = perfil
+                        } label: {
                             HStack {
                                 AsyncImage(url: URL(string: perfil.image)) { img in
                                     img.resizable().scaledToFit()
@@ -43,7 +43,6 @@ struct VistaUsuario: View {
                                 VStack(alignment: .leading) {
                                     Text(perfil.username)
                                         .font(.headline)
-                                  //  Text(perfil.titulo ?? "Sin título")
                                     Text(perfil.company?.title ?? "Sin título")
                                         .font(.caption)
                                         .foregroundStyle(.secondary)
@@ -57,22 +56,10 @@ struct VistaUsuario: View {
                 }
             }
             .navigationTitle("Red Social")
-            .navigationDestination(for: Perfil.self) { perfil in
-                VistaDetallePerfil(
-                    perfil: perfil /*,
-                    path: $path/*,
-                    rsViewModel: viewModel */ */
-                )
-            }
             .task {
-                await viewModel.cargarDatos()
+                await usuarioVM.cargarPerfiles()
             }
         }
     }
 }
 
-#Preview {
-   
-        VistaUsuario()
-
-}

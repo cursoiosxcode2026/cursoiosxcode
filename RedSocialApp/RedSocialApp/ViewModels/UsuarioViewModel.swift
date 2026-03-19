@@ -63,7 +63,7 @@ class UsuarioViewModel {
         
         return formatter.date(from: fechaString) ?? Date.distantPast
     }
-    func cargarDatos() async {
+    func cargarPerfiles() async {
         await MainActor.run { isLoading = true }
         do {
             let perfiles = try await apiService.obtenerPerfiles()
