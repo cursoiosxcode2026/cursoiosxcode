@@ -10,7 +10,7 @@ import FirebaseFirestore
 
 struct Mensaje: Identifiable, Codable {
     // Firestore rellena DocumentID automáticamente
-    @DocumentID var id: String?
+    @DocumentID var id: String? = UUID().uuidString
     
     var texto: String
     var fecha: Date

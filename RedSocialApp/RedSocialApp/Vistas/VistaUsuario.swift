@@ -11,8 +11,12 @@ struct VistaUsuario: View {
     @Bindable var usuarioVM: UsuarioViewModel // permite modificar usuarioActual
 
     var body: some View {
-        NavigationStack {
-            VStack {
+        NavigationStack  {
+             VStack {
+                 Text("Usuarios")
+                 .font(.title2).bold()
+                 //.padding()
+                 
                 if usuarioVM.isLoading {
                     ProgressView("Cargando...")
                         .controlSize(.large)
@@ -31,7 +35,7 @@ struct VistaUsuario: View {
                             // Asignamos usuario seleccionado
                             usuarioVM.usuarioActual = perfil
                         } label: {
-                            HStack {
+                           HStack {
                                 AsyncImage(url: URL(string: perfil.image)) { img in
                                     img.resizable().scaledToFit()
                                 } placeholder: {
@@ -55,10 +59,13 @@ struct VistaUsuario: View {
                     }
                 }
             }
-            .navigationTitle("Red Social")
-            .task {
-                await usuarioVM.cargarPerfiles()
-            }
+            
+           /* .navigationTitle("Usuarios")
+            .navigationBarTitleDisplayMode(.inline)
+                   
+            .toolbarBackground(.visible, for: .navigationBar)
+            .toolbarBackground(Color(.systemBackground), for: .navigationBar)
+*/
         }
     }
 }

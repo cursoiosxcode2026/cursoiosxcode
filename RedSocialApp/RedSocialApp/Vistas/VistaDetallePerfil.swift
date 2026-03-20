@@ -29,10 +29,10 @@ struct VistaDetallePerfil: View {
                 .frame(height: 150)
                 .frame(maxWidth: .infinity, alignment: .center)
                 
-                Text("\(viewModel.perfil.id)")
+              /*  Text("\(viewModel.perfil.id)")
                     .font(.title2.bold())
                     .frame(maxWidth: .infinity, alignment: .center)
-                
+                */
                 Text(viewModel.perfil.username)
                     .font(.title2.bold())
                     .frame(maxWidth: .infinity, alignment: .center)
