@@ -87,10 +87,6 @@ struct VistaAnadirMensaje: View {
 }
 
 #Preview {
-   /* VistaAnadirMensaje(
-        viewModel: MensajeViewModel(idUsuario: 1),
-        mensajeEditable: Mensaje(texto: "Hola mundo", fecha: Date(), idRemitente: 1, idReceptor: 9)
-    ) */
     
     VistaAnadirMensaje(
         viewModel: MensajeViewModel(idRemitente: 1),

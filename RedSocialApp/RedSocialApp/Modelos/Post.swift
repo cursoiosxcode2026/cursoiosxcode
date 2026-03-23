@@ -22,9 +22,6 @@ struct Post: Codable, Identifiable, Hashable {
         
     }
     
-  //  var likes: Int { reactions.likes }
-  //  var dislikes: Int { reactions.dislikes }
-    
     var likes: Int {
             reactions.likes + (userReaction == .like ? 1 : 0)
         }

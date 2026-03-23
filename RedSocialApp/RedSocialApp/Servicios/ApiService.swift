@@ -34,12 +34,6 @@ class ApiService {
         do {
             let respuesta = try JSONDecoder().decode(RespuestaAPI.self, from: data)
             let perfiles = respuesta.users
-            
-            // Asignamos titulo desde company
-          /*  for i in 0..<perfiles.count {
-                perfiles[i].titulo = perfiles[i].company?.title ?? "Sin título"
-            }*/
-            
             return perfiles
         } catch {
             print("❌ ERROR DECODIFICANDO PERFILES:", error)

@@ -17,7 +17,7 @@ struct VistaFeed: View {
         NavigationStack {
             VStack {
                 
-                Text("Feed de \(viewModel.perfil.username)")
+                Text("Feed"  /*de \(viewModel.perfil.username)*/)
                     .font(.title2).bold()
                 
             }
@@ -67,16 +67,13 @@ struct VistaFeed: View {
             username: "emilys",
             password: "emilyspass",
             image: "https://dummyjson.com/icon/emilys/128",
-            company: nil,
-            //titulo: "Tester"
+            company: nil
         )
-        
-       // let seguidoresVM = SeguidoresSeguidosViewModel()
+    
         
         VistaFeed(
             viewModel: DetallePerfilViewModel(
-                perfil: perfil/*,
-                viewModel: seguidoresVM*/
+                perfil: perfil
             )
         )
     }

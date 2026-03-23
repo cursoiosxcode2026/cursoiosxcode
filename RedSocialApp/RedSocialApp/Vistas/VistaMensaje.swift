@@ -20,16 +20,18 @@ struct VistaMensaje: View {
             VStack {
                 Text("Mensajes")
                 .font(.title2).bold()
-                //.padding()
                 
             }
             
-            List {
-                // Usamos $viewModel.mensajes para bindings
+            ScrollView{
                 ForEach($viewModel.mensajes) { $mensaje in
                     HStack(alignment: .top, spacing: 12) {
                         // Imagen del receptor solo si existe
-                       AsyncImage( url: URL(string: viewModel.perfilUsuario(id: mensaje.idReceptor)?.image ?? "")) { image in
+                        let idOtroUsuario = mensaje.idRemitente == viewModel.idRemitente
+                            ? mensaje.idReceptor
+                            : mensaje.idRemitente
+
+                        AsyncImage(url: URL(string: viewModel.perfilUsuario(id: idOtroUsuario)?.image ?? "")) { image in
                                 image
                                     .resizable()
                                     .scaledToFit()
@@ -37,12 +39,6 @@ struct VistaMensaje: View {
                                 Color.gray.opacity(0.3)
                             }
                             .frame(height: 50)
-                      //  Text(perfil?.image ?? "\(mensaje.idReceptor)")
-                        // Texto del mensaje y usuario
-                      //  VStack(alignment: .leading, spacing: 4) {
-                           /* Text(viewModel.perfilUsuario(id: mensaje.idReceptor)?.username
-                                 ?? "Usuario \(mensaje.idReceptor)")
-                                .font(.headline) */
                             Text(mensaje.texto)
                                 .font(.body)
                             Text(mensaje.fecha, style: .date)
@@ -79,7 +75,7 @@ struct VistaMensaje: View {
             .sheet(item: $mensajeEditable) { mensaje in
                 VistaAnadirMensaje(viewModel: viewModel, mensajeEditable: mensaje)
             }
-        } // NavigationStack
+        }
     }
 }
 

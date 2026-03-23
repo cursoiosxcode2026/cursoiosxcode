@@ -19,7 +19,7 @@ struct VistaDetallePerfil: View {
     }
     
     var body: some View {
-        ScrollView {
+      //  ScrollView {
             VStack(alignment: .leading, spacing: 20) {
                 AsyncImage(url: URL(string: viewModel.perfil.image)) { img in
                     img.resizable().scaledToFit()
@@ -28,11 +28,6 @@ struct VistaDetallePerfil: View {
                 }
                 .frame(height: 150)
                 .frame(maxWidth: .infinity, alignment: .center)
-                
-              /*  Text("\(viewModel.perfil.id)")
-                    .font(.title2.bold())
-                    .frame(maxWidth: .infinity, alignment: .center)
-                */
                 Text(viewModel.perfil.username)
                     .font(.title2.bold())
                     .frame(maxWidth: .infinity, alignment: .center)
@@ -40,7 +35,7 @@ struct VistaDetallePerfil: View {
                 Text(viewModel.titulo)
                     .font(.title2.bold())
                     .frame(maxWidth: .infinity, alignment: .center)
-                
+                ScrollView {
                 if viewModel.isLoading {
                     ProgressView("Cargando detalles...")
                 } else {
@@ -133,24 +128,6 @@ struct VistaDetallePerfil: View {
         }
     }
 }
-
-/*struct VistaDetallePerfilPreview: View {
-    
-  //  @State var path = NavigationPath()
-    
-    var body: some View {
-        
-        let perfil = Perfil(
-            id: 1,
-            username: "emilys",
-            password: "emilyspass",
-            image: "https://dummyjson.com/icon/emilys/128",
-            company: nil
-        )
-        
-        VistaDetallePerfil(perfil: perfil, /*, path: $path*/)
-    }
-} */
 
     #Preview {
         let perfil = Perfil(

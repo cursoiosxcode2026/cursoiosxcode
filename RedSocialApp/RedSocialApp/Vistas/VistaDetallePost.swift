@@ -27,41 +27,6 @@ struct VistaDetallePost: View {
             
             Text("\(post.name)")
                 .font(.title2.bold())
-/*
-            HStack {
-
-                Button {
-                    if post.userReaction == .dislike {
-                        post.userReaction = .none
-                    } else {
-                        post.userReaction = .dislike
-                    }
-                } label: {
-                    Image(systemName: "heart.slash.fill")
-                        .foregroundStyle(post.userReaction == .dislike ? .red : .gray)
-                }
-
-                Text("\(post.dislikes + (post.userReaction == .dislike ? 1 : 0))") // suma el dislike si el usuario lo dio
-
-                Spacer()
-
-                Button {
-                    if post.userReaction == .like {
-                        post.userReaction = .none
-                    } else {
-                        post.userReaction = .like
-                    }
-                } label: {
-                    Image(systemName: "heart.fill")
-                        .foregroundStyle(post.userReaction == .like ? .green : .gray)
-                }
-
-                Text("\(post.likes + (post.userReaction == .like ? 1 : 0))") // suma el like si el usuario lo dio
-            }
-            
-        
-             */
-            
             
             HStack {
                             Button {
