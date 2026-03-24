@@ -12,6 +12,7 @@ struct VistaMensaje: View {
     @Bindable var viewModel:  MensajeViewModel // inicializado
     @State private var mostrarAnadir = false
     @State private var mensajeEditable: Mensaje?
+    var editable: Bool = true
     
     var body: some View {
         
@@ -26,6 +27,8 @@ struct VistaMensaje: View {
             List {
                 ForEach($viewModel.mensajes) { $mensaje in
                     HStack(alignment: .top, spacing: 12) {
+                        
+                        //TO DO cambiar lo de editar o no mensaje
                         // Imagen del receptor solo si existe
                         let idOtroUsuario = mensaje.idRemitente == viewModel.idRemitente
                         ? mensaje.idReceptor
