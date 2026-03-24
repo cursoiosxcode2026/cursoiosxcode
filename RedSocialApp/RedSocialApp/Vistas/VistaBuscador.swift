@@ -51,8 +51,6 @@ struct VistaBuscador: View {
                     .padding(.vertical)
                 }
             }
-           // .navigationTitle("Buscador")
-           // .navigationBarTitleDisplayMode(.inline)
             .task {
                 do {
                     posts = try await ApiService.instancia.obtenerPostsAleatorios(cantidad: 30)

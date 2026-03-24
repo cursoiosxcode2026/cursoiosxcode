@@ -15,18 +15,14 @@ class PostsManager {
     
     private let apiService = ApiService.instancia
     
-    // Cache en memoria
     private var postsPorPerfil: [Int: [Post]] = [:]
-    
-    // Formatter reutilizable (mejor rendimiento)
+
     private static let formatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "es_ES")
         formatter.dateFormat = "dd MMM yyyy"
         return formatter
     }()
-    
-    // MARK: - API principal
     
     func obtenerPosts(perfilId: Int) async throws -> [Post] {
         

@@ -24,7 +24,6 @@ struct PerfilDetalle: Codable, Identifiable {
     let id: Int
     let username: String
     let password: String?
-   //  var titulo: String?
     let image: String
     
     let company: Company?
@@ -37,7 +36,7 @@ struct PerfilDetalle: Codable, Identifiable {
 
 
 
-//La API nos devuelve los personajes en un array de Personajes,
+//La API nos devuelve los personajes en un array de usuarios,
 //dado que la API contiene el objeto "results"
 struct RespuestaAPI: Codable {
     let users: [Perfil]

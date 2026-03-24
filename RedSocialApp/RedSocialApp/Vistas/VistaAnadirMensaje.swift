@@ -90,7 +90,7 @@ struct VistaAnadirMensaje: View {
     
     VistaAnadirMensaje(
         viewModel: MensajeViewModel(idRemitente: 1),
-        mensajeEditable: nil /*,idReceptor: 2 */ // o el primer usuario disponible
+        mensajeEditable: nil 
     )
 }
 

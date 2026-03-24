@@ -17,7 +17,11 @@ struct VistaHome: View {
                 TabView {
                     // Feed
                     NavigationStack {
-                        VistaFeed(viewModel: DetallePerfilViewModel(perfil: usuario))
+                        VistaFeed(
+                            viewModel: DetallePerfilViewModel(perfil: usuario),
+                            usuarioViewModel: usuarioVM,
+                            origen: .tabPrincipal
+                        )
                     }
                     .tabItem { Label("Feed", systemImage: "house") }
                     

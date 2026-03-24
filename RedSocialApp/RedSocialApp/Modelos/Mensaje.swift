@@ -14,7 +14,6 @@ struct Mensaje: Identifiable, Codable {
     
     var texto: String
     var fecha: Date
-    //var idUsuario: Int
     var idRemitente: Int
     var idReceptor: Int
     var participantes : [Int]

@@ -52,8 +52,6 @@ struct VistaDetallePost: View {
             Spacer()
         }
         .padding()
-        .navigationTitle("Detalle Post")
-        .navigationBarTitleDisplayMode(.inline)
     }
 }
 

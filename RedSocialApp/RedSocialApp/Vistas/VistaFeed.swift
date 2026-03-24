@@ -7,17 +7,45 @@
 
 import SwiftUI
 
+
+enum OrigenFeed {
+    case tabPrincipal
+    case perfil
+}
 struct VistaFeed: View {
     @State private var viewModel: DetallePerfilViewModel
-    
-    init(viewModel: DetallePerfilViewModel) {
-        _viewModel = State(initialValue: viewModel)
+    @State private var usuarioViewModel: UsuarioViewModel
+    let origen: OrigenFeed
+    var titulo: String {
+        let esMiUsuario = viewModel.perfil.id == usuarioViewModel.usuarioActual?.id
+        
+        switch origen {
+        case .tabPrincipal:
+            return "Mi feed"
+            
+        case .perfil:
+            return esMiUsuario
+                ? "Mis posts"
+                : "Posts de \(viewModel.perfil.username)"
+        }
     }
+    
+    init(
+        viewModel: DetallePerfilViewModel,
+        usuarioViewModel: UsuarioViewModel,
+        origen: OrigenFeed
+    ) {
+        _viewModel = State(initialValue: viewModel)
+        _usuarioViewModel = State(initialValue: usuarioViewModel)
+        self.origen = origen
+    }
+    
+    
     var body: some View {
         NavigationStack {
             VStack {
                 
-                Text("Feed"  /*de \(viewModel.perfil.username)*/)
+                Text(titulo)
                     .font(.title2).bold()
                 
             }
@@ -39,6 +67,7 @@ struct VistaFeed: View {
                                     .frame(width: 50, height: 50)
                                     .clipShape(Rectangle())
                                 }
+                                Spacer()
                                 Text(post.name)
                                 Spacer()
                                 Text(post.air_date).font(.caption).foregroundStyle(.secondary)
@@ -51,30 +80,24 @@ struct VistaFeed: View {
                 await viewModel.cargarDatosCompletos()
             }
         }
-        
-       /*.navigationTitle("Feed de \(viewModel.perfil.username)")
-       .navigationBarTitleDisplayMode(.inline)
-        
-        .toolbarBackground(.visible, for: .navigationBar)
-        .toolbarBackground(Color(.systemBackground), for: .navigationBar)
-        */
     }
 }
-    #Preview {
-        
-        let perfil = Perfil(
-            id: 1,
-            username: "emilys",
-            password: "emilyspass",
-            image: "https://dummyjson.com/icon/emilys/128",
-            company: nil
-        )
+#Preview {
+    let perfil = Perfil(
+        id: 1,
+        username: "emilys",
+        password: "emilyspass",
+        image: "https://dummyjson.com/icon/emilys/128",
+        company: nil
+    )
     
-        
-        VistaFeed(
-            viewModel: DetallePerfilViewModel(
-                perfil: perfil
-            )
-        )
-    }
+    let usuarioVM = UsuarioViewModel()
+    usuarioVM.usuarioActual = perfil
+    
+    return VistaFeed(
+        viewModel: DetallePerfilViewModel(perfil: perfil),
+        usuarioViewModel: usuarioVM,
+        origen: .tabPrincipal
+    )
+}
 

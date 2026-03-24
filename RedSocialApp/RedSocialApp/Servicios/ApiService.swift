@@ -87,52 +87,51 @@ class ApiService {
     }
     
 
-        func obtenerPostsAleatorios(cantidad: Int) async throws -> [Post] {
-            guard let url = URL(string: "https://dummyjson.com/posts") else {
-                throw NetworkError.urlInvalida
-            }
-
-            let (data, response) = try await URLSession.shared.data(from: url)
-            guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
-                throw NetworkError.errorServidor(statusCode: (response as? HTTPURLResponse)?.statusCode ?? 0)
-            }
-
-            struct RespuestaPosts: Codable {
-                let posts: [PostAPI]
-            }
-
-            struct PostAPI: Codable {
-                let id: Int
-                let title: String
-                let body: String
-                let reactions: Post.Reactions
-                
-            }
-
-            let respuesta = try JSONDecoder().decode(RespuestaPosts.self, from: data)
-
-            func fechaAleatoria() -> String {
-                let diasAtras = Int.random(in: 0...30)
-                let fecha = Calendar.current.date(byAdding: .day, value: -diasAtras, to: Date())!
-                let formatter = DateFormatter()
-                formatter.dateStyle = .medium
-                return formatter.string(from: fecha)
-            }
-
-            let postsAleatorios = respuesta.posts.shuffled().prefix(cantidad).map { p in
-                Post(
-                    id: p.id,
-                    name: p.title,
-                    body: p.body,
-                    reactions: p.reactions,
-                    air_date: fechaAleatoria(),
-                    image: "https://picsum.photos/200?random=\(p.id)"
-                
-                )
-            }
-
-            return postsAleatorios
+    func obtenerPostsAleatorios(cantidad: Int) async throws -> [Post] {
+        guard let url = URL(string: "https://dummyjson.com/posts") else {
+            throw NetworkError.urlInvalida
         }
-
+        
+        let (data, response) = try await URLSession.shared.data(from: url)
+        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+            throw NetworkError.errorServidor(statusCode: (response as? HTTPURLResponse)?.statusCode ?? 0)
+        }
+        
+        struct RespuestaPosts: Codable {
+            let posts: [PostAPI]
+        }
+        
+        struct PostAPI: Codable {
+            let id: Int
+            let title: String
+            let body: String
+            let reactions: Post.Reactions
+            
+        }
+        
+        let respuesta = try JSONDecoder().decode(RespuestaPosts.self, from: data)
+        
+        func fechaAleatoria() -> String {
+            let diasAtras = Int.random(in: 0...30)
+            let fecha = Calendar.current.date(byAdding: .day, value: -diasAtras, to: Date())!
+            let formatter = DateFormatter()
+            formatter.dateStyle = .medium
+            return formatter.string(from: fecha)
+        }
+        
+        let postsAleatorios = respuesta.posts.shuffled().prefix(cantidad).map { p in
+            Post(
+                id: p.id,
+                name: p.title,
+                body: p.body,
+                reactions: p.reactions,
+                air_date: fechaAleatoria(),
+                image: "https://picsum.photos/200?random=\(p.id)"
+                
+            )
+        }
+        
+        return postsAleatorios
+    }
 }
 

@@ -40,7 +40,7 @@ struct VistaDetallePerfil: View {
                     ProgressView("Cargando detalles...")
                 } else {
                     VStack(alignment: .leading) {
-                        Text("Posts: \(viewModel.post.count)")
+                        Text("Número de posts: \(viewModel.post.count)")
                             .font(.headline)
                         
                         ForEach(viewModel.post.indices, id: \.self) { index in
@@ -58,7 +58,7 @@ struct VistaDetallePerfil: View {
                                     }
                                     .frame(width: 40, height: 40)
                                     .clipShape(Rectangle())
-                                    
+                                    Spacer()
                                     Text(post.name)
                                     Spacer()
                                     Text(post.air_date)
@@ -96,18 +96,21 @@ struct VistaDetallePerfil: View {
                         }
                         
                         // ⚠️ Botón de Cerrar sesión
-                        Button(role: .destructive) {
-                            usuarioVM.usuarioActual = nil
-                        } label: {
-                            Text("Cerrar sesión")
-                                .bold()
-                                .frame(maxWidth: .infinity)
-                                .padding()
-                                .background(Color.red.opacity(0.1))
-                                .foregroundColor(.red)
-                                .cornerRadius(10)
+                        if viewModel.perfil.id == usuarioVM.usuarioActual?.id {
+                            Button(role: .destructive) {
+                                usuarioVM.usuarioActual = nil
+                            } label: {
+                                Text("Cerrar sesión")
+                                    .bold()
+                                    .frame(maxWidth: .infinity)
+                                    .padding()
+                                    .background(Color.red.opacity(0.1))
+                                    .foregroundColor(.red)
+                                    .cornerRadius(10)
+                            }
+                            .padding(.top, 30)
                         }
-                        .padding(.top, 30)
+                        
                         
                     }
                 }
@@ -117,7 +120,11 @@ struct VistaDetallePerfil: View {
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 NavigationLink {
-                    VistaFeed(viewModel: viewModel)
+                    VistaFeed(
+                        viewModel: viewModel,
+                        usuarioViewModel: usuarioVM,
+                        origen: .perfil
+                    )
                 } label: {
                     Image(systemName: "photo.fill")
                 }
