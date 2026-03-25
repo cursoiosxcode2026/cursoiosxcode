@@ -12,7 +12,7 @@ struct VistaMensaje: View {
     @Bindable var viewModel:  MensajeViewModel // inicializado
     @State private var mostrarAnadir = false
     @State private var mensajeEditable: Mensaje?
-    var editable: Bool = true
+    @State private var mensajeNoEditable: Mensaje?
     
     var body: some View {
         
@@ -45,20 +45,25 @@ struct VistaMensaje: View {
                         Spacer()
                         Text(mensaje.texto)
                             .font(.body)
+                            .multilineTextAlignment(.leading)
                         Spacer()
                         Text(mensaje.fecha, style: .date)
                             .font(.caption)
                             .foregroundColor(.gray)
+                            .multilineTextAlignment(.trailing)
                         //  }
                     }
                     .contentShape(Rectangle()) // toda la fila tocable
-                    .onTapGesture {
-                        mensajeEditable = mensaje
-                    }
+                            .onTapGesture {
+                                if mensaje.idRemitente == viewModel.idRemitente {
+                                    mensajeEditable = mensaje }
+                                    else { mensajeNoEditable = mensaje}
+                                
+                            }
+            
                 }
                 .onDelete(perform: viewModel.borrarMensaje)
                 .listRowBackground(Color.clear)
-               // .listRowSeparator(.hidden)
                 
                     // --- ESTO HACE QUE LA RAYA LLEGUE AL BORDE IZQUIERDO ---
                  .alignmentGuide(.listRowSeparatorLeading) { d in
@@ -84,6 +89,9 @@ struct VistaMensaje: View {
             // Sheet para editar mensaje existente
             .sheet(item: $mensajeEditable) { mensaje in
                 VistaAnadirMensaje(viewModel: viewModel, mensajeEditable: mensaje)
+            }
+            .sheet(item: $mensajeNoEditable) { mensaje in
+                VistaVerMensaje(viewModel: viewModel, mensaje: mensaje)
             }
         }
     }

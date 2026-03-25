@@ -64,24 +64,13 @@ struct VistaAnadirMensaje: View {
                 
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Guardar") {
-                        guardar()
+                        viewModel.guardarMensaje(texto: texto, idReceptor: idReceptor, mensajeEditable: mensajeEditable)
                         dismiss()
                     }
                     .disabled(texto.isEmpty)
                }
             }
 
-        }
-    }
-    
-    func guardar() {
-        if let mensaje = mensajeEditable {
-            var actualizado = mensaje
-            actualizado.texto = texto
-         //   actualizado.idUsuario = idUsuario
-            viewModel.actualizarMensajes(actualizado)
-        } else {
-            viewModel.anadirMensaje(texto: texto, idRemitente: idRemitente, idReceptor: idReceptor, fecha: Date())
         }
     }
 }

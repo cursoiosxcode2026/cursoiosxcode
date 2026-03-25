@@ -41,6 +41,7 @@ struct VistaBuscador: View {
                                         .clipShape(Rectangle())
 
                                         Text(post.name)
+                                        .multilineTextAlignment(.leading)
                                         Spacer()
                                     }
                                 }
@@ -65,3 +66,4 @@ struct VistaBuscador: View {
 #Preview {
     VistaBuscador()
 }
+

@@ -12,14 +12,14 @@ import Observation
 class DetallePerfilViewModel {
     let perfil: Perfil
     var detalle: PerfilDetalle?
-    var post: [Post] = []
+    var posts: [Post] = []
     var perfilesRelacionados: [Perfil] = []
     var isLoading = true
     var titulo: String {
         detalle?.company?.title ?? perfil.company?.title ?? "Sin título"
     }
     private let apiService: ApiService
-    var postsPorPerfil: [Int: [Post]] = [:]
+    //var postsPorPerfil: [Int: [Post]] = [:]
     
     init(perfil: Perfil, apiService: ApiService = ApiService.instancia) {
         self.perfil = perfil
@@ -31,7 +31,7 @@ class DetallePerfilViewModel {
         do {
             let detalle = try await apiService.obtenerDetallePerfil(id: perfil.id)
             
-            self.post = try await PostsManager.shared.obtenerPosts(perfilId: perfil.id)
+            self.posts = try await PostsManager.shared.obtenerPosts(perfilId: perfil.id)
             
             self.detalle = detalle
             

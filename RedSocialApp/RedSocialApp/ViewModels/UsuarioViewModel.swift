@@ -24,11 +24,7 @@ class UsuarioViewModel {
     init(apiService: ApiService = ApiService.instancia) {
         self.apiService = apiService
     }
-
     
-    func cargarPostsParaPerfil(_ perfil: Perfil) async throws -> [Post] {
-        return try await PostsManager.shared.obtenerPosts(perfilId: perfil.id)
-    }
     func cargarPerfiles() async {
         await MainActor.run { isLoading = true }
         do {

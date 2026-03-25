@@ -30,7 +30,8 @@ struct VistaDetallePost: View {
             
             HStack {
                             Button {
-                                post.userReaction = post.userReaction == .dislike ? .none : .dislike
+                               post.userReaction = post.userReaction == .dislike ? .none : .dislike
+                                
                             } label: {
                                 Image(systemName: "heart.slash.fill")
                                     .foregroundStyle(post.userReaction == .dislike ? .red : .gray)
@@ -40,7 +41,9 @@ struct VistaDetallePost: View {
                             Spacer()
                             
                             Button {
-                                post.userReaction = post.userReaction == .like ? .none : .like
+                            post.userReaction = post.userReaction == .like ? .none : .like
+                           
+                                
                             } label: {
                                 Image(systemName: "heart.fill")
                                     .foregroundStyle(post.userReaction == .like ? .green : .gray)
@@ -64,7 +67,6 @@ struct VistaDetallePost: View {
         air_date: "Hoy",
         image: "https://picsum.photos/200"
     )
-
-    VistaDetallePost(post: .constant(postDummy))
+    
+    VistaDetallePost(post: .constant(postDummy)/*, viewModel: vm*/)
 }
-

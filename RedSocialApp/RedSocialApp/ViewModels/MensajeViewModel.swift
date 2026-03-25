@@ -28,14 +28,15 @@ class MensajeViewModel {
         cargarMensajes()
         cargarPerfiles()
     }
-    
     func cargarMensajes() {
+      //  listener?.remove()
         // Consulta a "mensajes" en Firestore, usando el idUsuario
         db.collection(ConstantesFirestore.coleccionMensajes)
             //.whereField(Mensaje.CodingKeys.idUsuario.rawValue, isEqualTo: idUsuario)
             .whereField("participantes", arrayContains: idRemitente)
             .order(by: Mensaje.CodingKeys.fecha.rawValue, descending: true)
             .addSnapshotListener { snapshot, error in
+                print("🔥 Listener ejecutado")
                 guard let documents = snapshot?.documents else {
                     print("Error al leer los documentos: \(error?.localizedDescription ?? "Error desconocido")")
                     return
@@ -55,8 +56,6 @@ class MensajeViewModel {
                                idRemitente: idRemitente,
                                idReceptor: idReceptor,
                             )
-        
-        self.mensajes.insert(nuevoMensaje, at: 0)
         do {
             _ = try db.collection(ConstantesFirestore.coleccionMensajes).addDocument(from: nuevoMensaje)
          //   cargarMensajes()
@@ -65,40 +64,38 @@ class MensajeViewModel {
         }
     }
     
-    func borrarMensaje(indices: IndexSet) {
-        indices.forEach { indice in
-            let mensaje = mensajes[indice]
+    
+    func guardarMensaje(texto: String, idReceptor: Int, mensajeEditable: Mensaje?) {
+        
+        if let mensajeEditable {
+            var actualizado = mensajeEditable
+            actualizado.texto = texto
+            actualizado.idReceptor = idReceptor
             
-            guard let idMensaje = mensaje.id else {return}
+            actualizarMensajes(actualizado)
             
-            db.collection(ConstantesFirestore.coleccionMensajes).document(idMensaje).delete { error in
-                if let error {
-                    print("Error al borrar \(error.localizedDescription)")
-                }
-            }
+        } else {
+            anadirMensaje(
+                texto: texto,
+                idRemitente: idRemitente,
+                idReceptor: idReceptor,
+                fecha: Date()
+            )
         }
     }
-    
     func actualizarMensajes(_ mensaje: Mensaje) {
         guard let idMensaje = mensaje.id else {return}
         do {
             try db.collection(ConstantesFirestore.coleccionMensajes)
             .document(idMensaje)
             .setData(from: mensaje, merge: true)
-            
-            // Actualizamos el mensaje en local
-            if let index = self.mensajes.firstIndex(where: { $0.id == idMensaje }) {
-                self.mensajes[index] = mensaje
-            } else {
-                print("⚠️ Mensaje con id \(idMensaje) no existe en local")
-            }
         } catch {
             print("Error al actualizar: \(error.localizedDescription)")
         }
     }
   
     
-    //funcion heleper para casar la categoria que corresponde a un gasto
+    //funcion heleper para mostrar los mensajes que corresponde a un usuario
     func obtenerMensajes(id: String) -> Mensaje? {
         mensajes.first { $0.id == id }
     }
@@ -128,7 +125,19 @@ class MensajeViewModel {
             }
         }
     }
-
-   
+    
+    func borrarMensaje(indices: IndexSet) {
+        indices.forEach { indice in
+            let mensaje = mensajes[indice]
+            
+            guard let idMensaje = mensaje.id else {return}
+            
+            db.collection(ConstantesFirestore.coleccionMensajes).document(idMensaje).delete { error in
+                if let error {
+                    print("Error al borrar \(error.localizedDescription)")
+                }
+            }
+        }
+    }
 }
 

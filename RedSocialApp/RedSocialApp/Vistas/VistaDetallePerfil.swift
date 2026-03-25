@@ -40,12 +40,12 @@ struct VistaDetallePerfil: View {
                     ProgressView("Cargando detalles...")
                 } else {
                     VStack(alignment: .leading) {
-                        Text("Número de posts: \(viewModel.post.count)")
+                        Text("Número de posts: \(viewModel.posts.count)")
                             .font(.headline)
                         
-                        ForEach(viewModel.post.indices, id: \.self) { index in
-                            let postBinding = $viewModel.post[index]
-                            let post = viewModel.post[index]
+                        ForEach(viewModel.posts.indices, id: \.self) { index in
+                            let postBinding = $viewModel.posts[index]
+                            let post = viewModel.posts[index]
                             
                             HStack {
                                 NavigationLink {
@@ -60,6 +60,7 @@ struct VistaDetallePerfil: View {
                                     .clipShape(Rectangle())
                                     Spacer()
                                     Text(post.name)
+                                    .multilineTextAlignment(.center)
                                     Spacer()
                                     Text(post.air_date)
                                         .font(.caption)

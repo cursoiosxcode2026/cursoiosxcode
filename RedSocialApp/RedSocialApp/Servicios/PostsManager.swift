@@ -53,9 +53,4 @@ class PostsManager {
         return Self.formatter.date(from: fechaString) ?? Date.distantPast
     }
     
-   /* // Opcional: limpiar cache
-    func limpiarCache() {
-        postsPorPerfil.removeAll()
-
-    } */
 }

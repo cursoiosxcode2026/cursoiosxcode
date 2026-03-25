@@ -52,27 +52,31 @@ struct VistaFeed: View {
             ScrollView {
                 
                 VStack {
-                        ForEach($viewModel.post) { $post in
-                            HStack(){
-                                NavigationLink {
-                                    VistaDetallePost(post: $post)
-                                } label: {
-                                    AsyncImage(url: URL(string: post.image)) { image in
-                                        image
-                                            .resizable()
-                                            .scaledToFill()
-                                    } placeholder: {
-                                        Color.gray.opacity(0.3)
-                                    }
-                                    .frame(width: 50, height: 50)
-                                    .clipShape(Rectangle())
+                    ForEach($viewModel.posts) { $post in
+                        NavigationLink {
+                            VistaDetallePost(post: $post)
+                        } label: {
+                            HStack {
+                                AsyncImage(url: URL(string: post.image)) { image in
+                                    image
+                                        .resizable()
+                                        .scaledToFill()
+                                } placeholder: {
+                                    Color.gray.opacity(0.3)
                                 }
+                                .frame(width: 50, height: 50)
+                                .clipShape(Rectangle())
                                 Spacer()
                                 Text(post.name)
+                                    .multilineTextAlignment(.center)
                                 Spacer()
-                                Text(post.air_date).font(.caption).foregroundStyle(.secondary)
+                                Text(post.air_date)
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                                    .multilineTextAlignment(.trailing)
                             }
                         }
+                    }
                 }
                 .padding()
             }
