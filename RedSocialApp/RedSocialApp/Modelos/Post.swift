@@ -14,6 +14,7 @@ struct Post: Codable, Identifiable, Hashable {
     let reactions: Reactions
     let air_date: String
     var image: String = ""
+    //Variable que se suma si el usuario hace click en like o dislike
     var userReaction: Reaction = .none
     
     struct Reactions: Codable, Hashable {
@@ -22,13 +23,17 @@ struct Post: Codable, Identifiable, Hashable {
         
     }
     
+    //Se suman los likes, dependiento si el usuario da like
     var likes: Int {
             reactions.likes + (userReaction == .like ? 1 : 0)
         }
+    
+    //Se suman los dislikes, dependiento si el usuario da dislike
     var dislikes: Int {
             reactions.dislikes + (userReaction == .dislike ? 1 : 0)
         }
     
+    //Enum con los tipos de reacciones que puedes dar en un post
     enum Reaction: Codable{
         case like
         case dislike

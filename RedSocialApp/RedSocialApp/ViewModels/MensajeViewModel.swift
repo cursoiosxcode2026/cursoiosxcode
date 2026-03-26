@@ -17,7 +17,8 @@ enum ConstantesFirestore {
 @Observable
 class MensajeViewModel {
     var mensajes: [Mensaje] = []
-    var perfiles: [Perfil] = [] // perfiles traídos de tu API
+    //Obtiene los usuarios de la API https://dummyjson.com/users
+    var perfiles: [Perfil] = []
    
     private var db = Firestore.firestore()
     var idRemitente: Int
@@ -28,20 +29,20 @@ class MensajeViewModel {
         cargarMensajes()
         cargarPerfiles()
     }
+    
+    
+    // Consulta a mensajes en Firestore, usando el idUsuario
     func cargarMensajes() {
-      //  listener?.remove()
-        // Consulta a "mensajes" en Firestore, usando el idUsuario
         db.collection(ConstantesFirestore.coleccionMensajes)
-            //.whereField(Mensaje.CodingKeys.idUsuario.rawValue, isEqualTo: idUsuario)
             .whereField("participantes", arrayContains: idRemitente)
             .order(by: Mensaje.CodingKeys.fecha.rawValue, descending: true)
             .addSnapshotListener { snapshot, error in
-                print("🔥 Listener ejecutado")
+
                 guard let documents = snapshot?.documents else {
                     print("Error al leer los documentos: \(error?.localizedDescription ?? "Error desconocido")")
                     return
                 }
-                // Mapeo: del documento firestore al array de Gastos
+                // Mapeo: del documento firestore al array de mensajes
                 self.mensajes = documents.compactMap { doc -> Mensaje? in
                     try? doc.data(as: Mensaje.self)
                     
@@ -49,6 +50,7 @@ class MensajeViewModel {
             }
     }
     
+    //Añade los mensajes a Firestore
     func anadirMensaje(texto: String, idRemitente: Int, idReceptor: Int, fecha: Date) {
         let nuevoMensaje = Mensaje(
                                texto: texto,
@@ -64,7 +66,7 @@ class MensajeViewModel {
         }
     }
     
-    
+    //Guardar los mensajes
     func guardarMensaje(texto: String, idReceptor: Int, mensajeEditable: Mensaje?) {
         
         if let mensajeEditable {
@@ -83,6 +85,8 @@ class MensajeViewModel {
             )
         }
     }
+    
+    //Para actualizar el mensaje, solo se puede editar el mensaje
     func actualizarMensajes(_ mensaje: Mensaje) {
         guard let idMensaje = mensaje.id else {return}
         do {
@@ -95,7 +99,7 @@ class MensajeViewModel {
     }
   
     
-    //funcion heleper para mostrar los mensajes que corresponde a un usuario
+    //Funcion helper para mostrar los mensajes que corresponde a un usuario
     func obtenerMensajes(id: String) -> Mensaje? {
         mensajes.first { $0.id == id }
     }
@@ -126,6 +130,7 @@ class MensajeViewModel {
         }
     }
     
+    //Borra los mensajes de Firestore
     func borrarMensaje(indices: IndexSet) {
         indices.forEach { indice in
             let mensaje = mensajes[indice]

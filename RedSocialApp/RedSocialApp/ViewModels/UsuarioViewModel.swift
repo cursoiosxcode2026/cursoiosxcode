@@ -25,6 +25,7 @@ class UsuarioViewModel {
         self.apiService = apiService
     }
     
+    //Obtiene los usuarios de la API https://dummyjson.com/users
     func cargarPerfiles() async {
         await MainActor.run { isLoading = true }
         do {
@@ -32,7 +33,6 @@ class UsuarioViewModel {
             await MainActor.run {
                 self.perfiles = perfiles
                 self.errorMessage = nil
-                print("en seguidores view model")
             }
         } catch {
             await MainActor.run { errorMessage = "No se pudieron cargar los perfiles" }
@@ -43,6 +43,7 @@ class UsuarioViewModel {
         await MainActor.run { isLoading = false }
     }
     
+    //Cerramos sesión, borrando el usuario actual
     func cerrarSesion() {
         usuarioActual = nil
     }

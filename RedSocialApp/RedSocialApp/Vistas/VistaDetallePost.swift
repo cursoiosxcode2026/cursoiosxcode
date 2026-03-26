@@ -29,6 +29,7 @@ struct VistaDetallePost: View {
                 .font(.title2.bold())
             
             HStack {
+                //Cambia al hacer click en like o dislike
                             Button {
                                post.userReaction = post.userReaction == .dislike ? .none : .dislike
                                 
@@ -42,7 +43,6 @@ struct VistaDetallePost: View {
                             
                             Button {
                             post.userReaction = post.userReaction == .like ? .none : .like
-                           
                                 
                             } label: {
                                 Image(systemName: "heart.fill")
@@ -56,17 +56,4 @@ struct VistaDetallePost: View {
         }
         .padding()
     }
-}
-
-#Preview {
-    let postDummy = Post(
-        id: 1,
-        name: "Post Aleatorio",
-        body: "Este es un post de prueba.",
-        reactions: Post.Reactions(likes: 10, dislikes: 2),
-        air_date: "Hoy",
-        image: "https://picsum.photos/200"
-    )
-    
-    VistaDetallePost(post: .constant(postDummy)/*, viewModel: vm*/)
 }

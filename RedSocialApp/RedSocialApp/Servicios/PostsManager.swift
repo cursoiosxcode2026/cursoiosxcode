@@ -26,31 +26,41 @@ class PostsManager {
     
     func obtenerPosts(perfilId: Int) async throws -> [Post] {
         
-        // 1. Si ya están en cache → devolverlos
+        //Si ya están en cache los devuelve
         if let posts = postsPorPerfil[perfilId] {
             return ordenar(posts)
         }
         
-        // 2. Si no → pedirlos a la API
+        // Si no los pide a la API
         let nuevosPosts = try await apiService.obtenerPostsAleatorios(
             cantidad: Int.random(in: 1...30)
         )
         
-        // 3. Guardar en cache
+        // Los guarda en cache
         postsPorPerfil[perfilId] = nuevosPosts
-        
         return ordenar(nuevosPosts)
     }
     
+    //Obtiene los post para la tab Feed
+    func obtenerPostFeed() async throws -> [Post] {
+        
+        let nuevosPostsFeed = try await apiService.obtenerPostsAleatorios(
+            cantidad: Int.random(in: 1...30)
+        )
+        
+        return ordenar(nuevosPostsFeed)
+    }
     
+    
+    //Ordena los post por fecha
     private func ordenar(_ posts: [Post]) -> [Post] {
         posts.sorted {
             convertirFecha($0.air_date) > convertirFecha($1.air_date)
         }
     }
     
+    //Convierte la fecha
     private func convertirFecha(_ fechaString: String) -> Date {
         return Self.formatter.date(from: fechaString) ?? Date.distantPast
     }
-    
 }

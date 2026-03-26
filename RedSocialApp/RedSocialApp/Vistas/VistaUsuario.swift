@@ -37,7 +37,6 @@ struct VistaUsuario: View {
                             usuarioVM.usuarioActual = perfil
                         } label: {
                             HStack(spacing: 20) {
-                                // Columna 1: Foto
                                 VStack {
                                     AsyncImage(url: URL(string: perfil.image)) { img in
                                         img.resizable()
@@ -49,7 +48,6 @@ struct VistaUsuario: View {
                                     .frame(width: 60, height: 60)
                                     .clipShape(Circle())
                                 }
-                                // Columna 2: Nombre y titulo
                                 VStack(alignment: .leading, spacing: 4) {
                                     Text(perfil.username)
                                         .font(.headline)
@@ -61,6 +59,7 @@ struct VistaUsuario: View {
 
                         }
                         .listRowBackground(Color.clear)
+                        //Quita la linea que separa la lista
                         .listRowSeparator(.hidden)
                     }
                     //Quita el fondo gris y los bordes redondeados

@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-
 enum OrigenFeed {
     case tabPrincipal
     case perfil
@@ -29,6 +28,26 @@ struct VistaFeed: View {
                 : "Posts de \(viewModel.perfil.username)"
         }
     }
+   
+    /*Al usar la misma VistaFeed cuando es feed y cuando son mis post o los de otra persona,
+     hay que tener en cuenta desde donde se llama para devolver DetallePerfilViewModel.posts
+     (mis post o del usuario x que se guardan en cache) o DetallePerfilViewModel.postsFeed(que van cambiando cada vez que haces click en la tab
+     */
+    
+    var postBindings: [Binding<Post>] {
+        switch origen {
+        case .tabPrincipal:
+            return viewModel.postsFeed.indices.map { index in
+                $viewModel.postsFeed[index]
+            }
+        case .perfil:
+            return viewModel.posts.indices.map { index in
+                $viewModel.posts[index]
+            }
+        }
+    }
+    
+    
     
     init(
         viewModel: DetallePerfilViewModel,
@@ -52,7 +71,9 @@ struct VistaFeed: View {
             ScrollView {
                 
                 VStack {
-                    ForEach($viewModel.posts) { $post in
+                    //Aqui se usa el DetallePerfilViewModel.postsFeed o DetallePerfilViewModel.posts
+                    //dependiendo de la variable postBindings
+                    ForEach(postBindings) { $post in
                         NavigationLink {
                             VistaDetallePost(post: $post)
                         } label: {

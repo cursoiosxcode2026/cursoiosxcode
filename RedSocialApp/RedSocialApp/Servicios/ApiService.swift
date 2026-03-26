@@ -20,6 +20,7 @@ class ApiService {
     static let instancia = ApiService()
     private init() {}
     
+    //Obtiene los usuarios de la API https://dummyjson.com/users
     func obtenerPerfiles() async throws -> [Perfil] {
         guard let url = URL(string: "https://dummyjson.com/users") else {
             throw NetworkError.urlInvalida
@@ -86,7 +87,7 @@ class ApiService {
         return resultados
     }
     
-
+    //Obtiene los post de la API
     func obtenerPostsAleatorios(cantidad: Int) async throws -> [Post] {
         guard let url = URL(string: "https://dummyjson.com/posts") else {
             throw NetworkError.urlInvalida
@@ -118,6 +119,7 @@ class ApiService {
             formatter.dateStyle = .medium
             return formatter.string(from: fecha)
         }
+        
         
         let postsAleatorios = respuesta.posts.shuffled().prefix(cantidad).map { p in
             Post(

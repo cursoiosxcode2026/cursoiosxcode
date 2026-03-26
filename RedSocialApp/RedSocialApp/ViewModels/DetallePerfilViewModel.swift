@@ -12,14 +12,14 @@ import Observation
 class DetallePerfilViewModel {
     let perfil: Perfil
     var detalle: PerfilDetalle?
-    var posts: [Post] = []
     var perfilesRelacionados: [Perfil] = []
     var isLoading = true
     var titulo: String {
         detalle?.company?.title ?? perfil.company?.title ?? "Sin título"
     }
     private let apiService: ApiService
-    //var postsPorPerfil: [Int: [Post]] = [:]
+    var posts: [Post] = []
+    var postsFeed: [Post] = []
     
     init(perfil: Perfil, apiService: ApiService = ApiService.instancia) {
         self.perfil = perfil
@@ -27,11 +27,18 @@ class DetallePerfilViewModel {
         
     }
     
+    
+    //Carga todo los datos del perfil
     func cargarDatosCompletos() async {
         do {
             let detalle = try await apiService.obtenerDetallePerfil(id: perfil.id)
             
             self.posts = try await PostsManager.shared.obtenerPosts(perfilId: perfil.id)
+            self.postsFeed = try await PostsManager.shared.obtenerPostFeed()
+            
+           /* // Aplicamos las reacciones guardadas
+            aplicarReacciones(&posts)
+            aplicarReacciones(&postsFeed) */
             
             self.detalle = detalle
             

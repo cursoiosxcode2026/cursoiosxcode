@@ -28,8 +28,10 @@ struct VistaMensaje: View {
                 ForEach($viewModel.mensajes) { $mensaje in
                     HStack(alignment: .top, spacing: 12) {
                         
-                        //TO DO cambiar lo de editar o no mensaje
-                        // Imagen del receptor solo si existe
+        
+                        //Tiene en cuenta si eres el Remitente o Receptor, si eres remitente devuelve el idReceptor,
+                        //Si eres receptor devuelve idRemitente, para que despues cuando se use no devuelva
+                        // tu propia imagen de perfil
                         let idOtroUsuario = mensaje.idRemitente == viewModel.idRemitente
                         ? mensaje.idReceptor
                         : mensaje.idRemitente
@@ -53,7 +55,9 @@ struct VistaMensaje: View {
                             .multilineTextAlignment(.trailing)
                         //  }
                     }
-                    .contentShape(Rectangle()) // toda la fila tocable
+                    .contentShape(Rectangle())
+                    //Asignamos el mensaje dependiendo de si es Editable o no, es Editable cuando el usuario actual es el mismo
+                    // que el remitente
                             .onTapGesture {
                                 if mensaje.idRemitente == viewModel.idRemitente {
                                     mensajeEditable = mensaje }
@@ -65,7 +69,7 @@ struct VistaMensaje: View {
                 .onDelete(perform: viewModel.borrarMensaje)
                 .listRowBackground(Color.clear)
                 
-                    // --- ESTO HACE QUE LA RAYA LLEGUE AL BORDE IZQUIERDO ---
+                // Hace que la raya llegue desde el borde izquierdo
                  .alignmentGuide(.listRowSeparatorLeading) { d in
                      d[.leading]
                  }
@@ -90,6 +94,7 @@ struct VistaMensaje: View {
             .sheet(item: $mensajeEditable) { mensaje in
                 VistaAnadirMensaje(viewModel: viewModel, mensajeEditable: mensaje)
             }
+            //Sheet para ver mensaje, no se puede editar porque eres el receptor
             .sheet(item: $mensajeNoEditable) { mensaje in
                 VistaVerMensaje(viewModel: viewModel, mensaje: mensaje)
             }

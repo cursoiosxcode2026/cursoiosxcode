@@ -11,7 +11,8 @@ import Observation
 struct VistaDetallePerfil: View {
     
     @State private var viewModel: DetallePerfilViewModel
-    @Binding var usuarioVM: UsuarioViewModel // binding para poder cerrar sesión
+    //Binding para poder cerrar sesión
+    @Binding var usuarioVM: UsuarioViewModel
     
     init(perfil: Perfil, usuarioVM: Binding<UsuarioViewModel>) {
         self._viewModel = State(wrappedValue: DetallePerfilViewModel(perfil: perfil))
@@ -19,7 +20,6 @@ struct VistaDetallePerfil: View {
     }
     
     var body: some View {
-      //  ScrollView {
             VStack(alignment: .leading, spacing: 20) {
                 AsyncImage(url: URL(string: viewModel.perfil.image)) { img in
                     img.resizable().scaledToFit()
@@ -68,7 +68,7 @@ struct VistaDetallePerfil: View {
                                 }
                             }
                         }
-                        
+                        //Obtiene los usuarios relacionados si no esta vacío
                         if !viewModel.perfilesRelacionados.isEmpty {
                             VStack(alignment: .leading) {
                                 Text("Perfiles relacionados")

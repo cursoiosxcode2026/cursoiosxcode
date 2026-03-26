@@ -11,6 +11,7 @@ struct VistaHome: View {
     @State var usuarioVM = UsuarioViewModel()
     @State private var mensajeVMs: [Int: MensajeViewModel] = [:]
     
+    
     var body: some View {
         Group {
             if let usuario = usuarioVM.usuarioActual {
@@ -48,7 +49,7 @@ struct VistaHome: View {
                     .tabItem { Label("Perfil", systemImage: "person") }
                 }
                 .task {
-                    // Crear MensajeViewModel solo una vez por usuario
+                    // Crear mensajeViewModel solo una vez por usuario
                     if mensajeVMs[usuario.id] == nil {
                         mensajeVMs[usuario.id] = MensajeViewModel(idRemitente: usuario.id)
                     }

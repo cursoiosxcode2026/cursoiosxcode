@@ -29,7 +29,7 @@ struct PerfilDetalle: Codable, Identifiable {
     let company: Company?
     let email: String
     let phone: String
-    var post: [String] = []  // posts simulados
+    var post: [String] = []  
     var mensajes: [Mensaje] = []
     
 }

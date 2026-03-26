@@ -11,6 +11,7 @@ struct VistaBuscador: View {
     @State private var textoBuscado: String = ""
     @State private var posts: [Post] = []
 
+
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
@@ -63,7 +64,7 @@ struct VistaBuscador: View {
     }
 }
 
-#Preview {
+/*#Preview {
     VistaBuscador()
 }
-
+*/
