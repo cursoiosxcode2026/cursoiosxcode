@@ -19,8 +19,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         return true
     }
 }
-
-//Más APIs: https://free-apis.github.io/#/browse
 @main
 struct RedSocialApp: App {
     // register app delegate for Firebase setup
